@@ -16,11 +16,16 @@ class CreateTopicsTable extends Migration
         Schema::create('topics', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('lecturers_id')->unsigned()->index();
+            $table->integer('fields_id')->unsigned()->index();
             $table->longtext('name');
             $table->integer('accept')->default('0');
             $table->longtext('description');
             $table->foreign('lecturers_id')
                 ->references('id')->on('lecturers')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreign('fields_id')
+                ->references('id')->on('fields')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();

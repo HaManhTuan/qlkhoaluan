@@ -97,6 +97,13 @@
             <div class="modal-body">
              <form action="{{ url('lecturers/topic/add-topic') }}" method="POST" id="frm-add" onsubmit="return false;">
                @csrf
+               <div class="form-group">
+                    <label for="department">Lĩnh Vực</label>
+                    <select name="field" class="form-control">
+                      <option value="" selected="" disabled="">---Chọn---</option>
+                      {!!$data_fields_select!!}
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="department">Tên Đề tài</label>
                     <textarea name="name" class="form-control" rows="4" data-rule-required="true" data-msg-required="Vui lòng nhập tên để tài."></textarea>
