@@ -151,6 +151,9 @@ Route::get('danhsachdbv',[
       'as'=>'danhsach-dbv',
       'uses'=>'QldotbaoveController@getQldotbaove'
 ]);
+Route::get('add-protection','QldotbaoveController@add');
+Route::post('add-post-protections','QldotbaoveController@addpost');
+Route::post('change-status-hd','QldotbaoveController@changestatushd');
 
 //taikhoan
 

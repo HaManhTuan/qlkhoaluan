@@ -48,6 +48,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->maplecturersRoutes();
 
+        $this->mapstudentsRoutes();
+
         //
     }
 
@@ -82,5 +84,9 @@ class RouteServiceProvider extends ServiceProvider
     protected function maplecturersRoutes(){
         Route::middleware('web')->namespace('App\Http\Controllers\Lecturers')
              ->group(base_path('routes/lecturers.php'));
+    }
+    protected function mapstudentsRoutes(){
+        Route::middleware('web')->namespace('App\Http\Controllers\Students')
+             ->group(base_path('routes/students.php'));
     }
 }

@@ -133,12 +133,6 @@
             }).then(() => {
                   location.reload();
                 });
-            // if(data.action == "1"){
-            //      $(".project-state").html("<span class='badge badge-success change_status' data-id='"+data.action+"'>Active</span>");
-            // }
-            // else{
-            //     $(".project-state").html("<span class='badge badge-danger change_status' data-id='"+data.action+"'>Unactive</span>");
-            // }
           }
          
         },

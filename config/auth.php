@@ -55,6 +55,16 @@ return [
             'driver'       => 'token',
             'provider'     => 'lecturers',
         ],
+        'students' => [
+            'driver'   => 'session',
+            'provider' => 'students',
+        ],
+
+        'students-api' => [
+            'driver'       => 'token',
+            'provider'     => 'students',
+        ],
+
     ],
 
     /*
@@ -82,6 +92,10 @@ return [
         'lecturers' => [
             'driver'   => 'eloquent',
             'model'    => App\Model\Lecturers::class ,
+        ],
+        'students' => [
+            'driver'   => 'eloquent',
+            'model'    => App\Model\Students::class ,
         ],
         // 'users' => [
         //     'driver' => 'database',
@@ -113,6 +127,11 @@ return [
         ],
         'lecturers' => [
             'provider' => 'lecturers',
+            'table'    => 'password_resets',
+            'expire'   => 60,
+        ],
+        'students' => [
+            'provider' => 'students',
             'table'    => 'password_resets',
             'expire'   => 60,
         ],

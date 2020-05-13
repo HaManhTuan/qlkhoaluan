@@ -6,7 +6,7 @@
   <title>Đăng Nhập</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <base href="{{ asset('') }}" >
   <!-- Font Awesome -->
   <link rel="stylesheet" href="resource/plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
@@ -21,6 +21,9 @@
   <link rel="stylesheet" href="resource/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="resource/plugins/toastr/toastr.min.css">
+  <!-- jQuery -->
+<script src="resource/plugins/jquery/jquery.min.js"></script>
+    <script src="resource/jquery.validate.min.js"></script>
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -30,12 +33,12 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Tài Khoản Đăng Nhập</p>
+      <p class="login-box-msg">Tài Khoản Đăng Nhập Học Sinh</p>
 
-      <form action="{{ url('postlogin') }}" method="POST">
+        <form action="{{ url('students/dang-nhap') }}" method="POST">
         @csrf
         <div class="input-group mb-3">
-          <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" value="{{old('email')}}">
+          <input type="text" name="msv" id="msv" class="form-control @error('email') is-invalid @enderror" placeholder="Mã sinh viên" value="{{old('email')}}">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -65,24 +68,6 @@
         </div>
       </form>
       <div class="social-auth-links text-center mb-3">
-        <p>- OR -</p>
-        <a href="{{ url('register-teacher') }}" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i> Đăng kí tài khoản giáo viên 
-        </a>
-        <a href="{{ url('lecturers/login') }}" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i> Đăng nhập Giáo Viên 
-        </a>
-      </div>
-       <div class="social-auth-links text-center mb-3">
-        <p>- OR -</p>
-        <a href="{{ url('register-students') }}" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i> Đăng kí tài khoản học sinh 
-        </a>
-        <a href="{{ url('students/login') }}" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i> Đăng nhập học sinh 
-        </a>
-      </div>
-      <div class="social-auth-links text-center mb-3">
         <p></p>
       </div>
     </div>
@@ -91,8 +76,7 @@
 </div>
 <!-- /.login-box -->
 
-<!-- jQuery -->
-<script src="resource/plugins/jquery/jquery.min.js"></script>
+
 <!-- Bootstrap 4 -->
 <script src="resource/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
@@ -109,7 +93,7 @@ $(document).ready(function() {
      toast: true,
      position: 'top-end',
      showConfirmButton: false,
-     timer: 3000
+     timer: 2000
  });
    Toast.fire({
        icon: 'error',
@@ -117,6 +101,6 @@ $(document).ready(function() {
   });
 });
 </script>
- @endif
+@endif
 </body>
 </html>

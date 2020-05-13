@@ -52,7 +52,7 @@ class QlgiangvienController extends Controller
         return response()->json($msg);
       }
 
-      print_r($req->all());
+      //print_r($req->all());
     }
     public function getDanhsachsvdk(){
     	return view('qlgiangvien.danhsachsvdk');

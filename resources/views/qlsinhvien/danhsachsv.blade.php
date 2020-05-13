@@ -24,90 +24,58 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">
-              
-           <form class="form-inline ml-3">
-           <div class="input-group input-group-sm">
-           <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-           <div class="input-group-append">
-           <button type="button" class="btn btn-primary btn-large btn-ssup"
-                  onclick="cms_paging_supplier(1)"><i class="fa fa-search"></i> Tìm kiếm
-           </button>
-           </div>
-           </div>
-           </form>
-
-           </div>
-
-          <div class="card-tools">
-            <div class="btn-groups">
-                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                         data-target="#create-cust"><i class="fa fa-plus-circle"></i> Thêm Sinh viên
-                 </button>
-                 <button type="button" class="btn btn-success" onclick=""><i class="fa fa-download"></i> Xuất Excel</button>
-            </div>
-          </div>
-
+        
+{{--               <div class="row" align="center">
+                <div class="col-md-3">
+                  <select name="branch_id" class="form-control" style="padding-top: 5px;" id="filter_branches">
+                    <option>--Ngành--</option>
+                      @foreach($branches as $branches)
+                            <option value="{{ $branches->branches->id }}">{{ $branches->branches->name }}</option>
+                       @endforeach
+                    </select>
+                  </div>
+                <div class="col-md-3"> 
+                   <select name="classes_id" class="form-control" style="padding-top: 5px;" id="filter_classes">
+                    <option>--Lớp--</option>
+                      @foreach($classes as $classes)
+                            <option value="{{ $classes->classes->id }}">{{ $classes->classes->name }}</option>
+                       @endforeach
+                    </select>
+                </div>
+                  <div class="col-md-4">
+                       <div class="form-group" align="left">
+                        <button type="button" name="filter" id="filter" class="btn btn-info">Lọc</button>
+                        <button type="button" name="reset" id="reset" class="btn btn-default">Reset</button>
+                    </div>
+                  </div>
+              </div> --}}
+          
         </div>
-
-        <div class="card-body p-0">
-          <table  class="table table-bordered table-striped">
-                        <thead>
-                        <tr>
-                            <th class="text-center">Mã Sinh Viên</th>
-                            <th class="text-center">Tên Sinh Viên</th>
-                            <th class="text-center">Khoa</th>
-                            <th class="text-center">Ngành</th>
-                            <th class="text-center">Lớp</th>
-                            <th class="text-center">Địa Chỉ</th>
-                            <th class="text-center" style="background-color: #fff;">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody class="ajax-loadlist-customer">
-                        <?php if (isset($_list_customer) && count($_list_customer)) :
-                            foreach ($_list_customer as $key => $item) :
-                                ?>
-                                <tr id="tr-item-<?php echo $item['ID']; ?>">
-                                    <td onclick="cms_detail_customer(<?php echo $item['ID']; ?>)" class="text-center tr-detail-item"
-                                        style="cursor: pointer; color: #1b6aaa;"><?php echo $item['customer_code']; ?></td>
-                                    <td onclick="cms_detail_customer(<?php echo $item['ID']; ?>)" class="text-center tr-detail-item"
-                                        style="cursor: pointer; color: #1b6aaa;"><?php echo $item['customer_name']; ?></td>
-                                    <td class="text-center"><?php echo (!empty($item['customer_phone'])) ? $item['customer_phone'] :
-                                            '-'; ?></td>
-                                    <td class="text-center"><?php echo (!empty($item['customer_addr'])) ? $item['customer_addr'] :
-                                            '-'; ?></td>
-                                    <td class="text-center"><?php echo (!empty($item['sell_date'])) ? $item['sell_date'] :
-                                            '-'; ?></td>
-                                    <td class="text-right"
-                                        style="font-weight: bold; background-color: #f9f9f9;"><?php echo (!empty($item['total_money'])) ? number_format($item['total_money']) :
-                                            '-'; ?></td>
-                                    <td class="text-right"><?php echo (!empty($item['total_debt'])) ? number_format($item['total_debt']) :
-                                            '-'; ?></td>
-                                    <td class="text-center"><i class="fa fa-trash-o" style="cursor:pointer;"
-                                                               onclick="cms_delCustomer(<?php echo $item['ID']; ?>,1);"></i>
-                                    </td>
-                                </tr>
-                            <?php
-                            endforeach;
-                        else: ?>
-                            <tr>
-                                <td colspan="8" class="text-center">Không có dữ liệu</td>
-                            </tr>
-                        <?php endif; ?>
-                        </tbody>
-
-                    </table>
+        <div class="card-body p-4">
+          <table  class="table table-bordered table-striped" id="studentTable">
+                <thead>
+                <tr>
+                    <th class="text-center">Mã Sinh Viên</th>
+                    <th class="text-center">Tên Sinh Viên</th>
+                    <th class="text-center">Ngành</th>
+                    <th class="text-center">Lớp</th>
+                    <th class="text-center" style="background-color: #fff;">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                  @foreach ($dataStudent as $element)
+                    <tr>
+                      <td>{{$element->msv}}</td>
+                      <td>{{$element->name}}</td>
+                      <td>{{$element->branches->name}}</td>
+                      <td>{{$element->classes->name}}</td>
+                      <td></td>
+                    </tr>
+                  @endforeach
                  
-                 <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                </ul>
-              </div>
-            </div>
+                </tbody>
+          </table>
+        </div>
 
         </div>
         <!-- /.card-body -->
@@ -117,6 +85,21 @@
     </section>
     <!-- /.content -->
   </div>
+   <!-- DataTables -->
+  <link rel="stylesheet" href="resource/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="resource/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <script src="resource/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="resource/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="resource/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="resource/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script>
+$("#studentTable").DataTable({
+            "columnDefs": [
+              { "orderable": false, "targets": 4 },
+              ],
+            "order": [],
+         });
+</script>
 
 
 @endsection
