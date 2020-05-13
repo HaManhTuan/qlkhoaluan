@@ -33,6 +33,9 @@
   <link rel="stylesheet" href="resource/plugins/toastr/toastr.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- DataTables -->
+  <link rel="stylesheet" href="resource/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="resource/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <!-- jQuery -->
 <script src="resource/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -47,6 +50,10 @@
   $.widget.bridge('uibutton', $.ui.button)
 </script>
   <script src="resource/jquery.validate.min.js"></script>
+  <script src="resource/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="resource/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="resource/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="resource/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -100,11 +107,7 @@
       <img src="resource/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">
-        @if (isset(Auth::user()->name))
-           {{ Auth::user()->name }}
-        @else
         {{ Auth::guard('lecturers')->user()->name_lecturer  }}
-        @endif
        
       </span>
     </a>
@@ -117,11 +120,9 @@
           <img src="resource/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"> @if (isset(Auth::user()->name))
-           {{ Auth::user()->name }}
-            @else
-        {{ Auth::guard('lecturers')->user()->name_lecturer  }}
-        @endif</a>
+          <a href="#" class="d-block">
+            {{ Auth::guard('lecturers')->user()->name_lecturer }}
+          </a>
         </div>
       </div>
 
@@ -131,194 +132,14 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-header">QUẢN LÝ</li>
-
-
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+          <li class="nav-item">
+            <a href="{{ url('lecturers/topic/view-topic') }}" class="nav-link">
               <i class="nav-icon fas fa-user-shield"></i>
               <p>
-                Quản Lý Hội Đồng
-                <i class="right fas fa-angle-left"></i>
+                Quản Lý Đề Tài
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route("ql-hoidong")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Danh Sách Hội Đồng</p>
-                </a>
-              </li>
-            </ul>
           </li>
-
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-book"></i>
-              <p>
-                Quản Lý Khóa Luận
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route("ql-khoaluan")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Danh Sách Đề Tài</p>
-                </a>
-              </li>
-              </li>
-
-            </ul>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route("dangki-dt")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Đăng Kí Đề Tài</p>
-                </a>
-              </li>
-              </li>
-              
-            </ul>
-          </li>
-
-        <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                Quản Lý Sinh Viên
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route("ql-sinhvien")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Danh Sách Sinh Viên</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          
-
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-user-tie"></i>
-              <p>
-                Quản Lý Giảng Viên
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route("ql-giangvien")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Danh Sách Giảng Viên</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route("danhsach-svdk")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Danh Sách Sinh viên Đăng Kí  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route("detai-gv")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Đề Tài Của Bạn </p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-                Quản Lý Lĩnh Vực
-                <i class="fas fa-angle-left right"></i>
-                <span class="badge badge-info right"></span>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route("ql-linhvuc")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Quản Lý Lĩnh Vực</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route("ql-khoa")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Quản Lý Khoa</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route("ql-nganh")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Quản Lý Ngành</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route("ql-lop")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Quản Lý Lớp</p>
-                </a>
-              </li>
-
-            </ul>
-          </li>
-
-         <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-                Quản Lý Đợt Bảo Vệ
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route("danhsach-dbv")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Danh Sách Đợt Bảo Vệ</p>
-                </a>
-              </li>
-              
-            </ul>
-          </li>
-
-
-          <li class="nav-header">TÀI KHOẢN</li>
-  
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-id-card"></i>
-              <p>
-                Quản Lý Tài Khoản
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route("tai-khoan")}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Tài Khoản</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ url('user/roles') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Roles</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ url('user/permissions') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Permission</p>
-                </a>
-              </li>
-            </ul>
       </nav>
       <!-- /.sidebar-menu -->
     </div>
@@ -335,7 +156,6 @@
       <b>Version</b> 3.0.4
     </div>
   </footer>
-
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -343,8 +163,6 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-
-
 <!-- Bootstrap 4 -->
 <script src="resource/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- ChartJS -->

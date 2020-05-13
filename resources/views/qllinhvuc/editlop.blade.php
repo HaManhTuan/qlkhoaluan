@@ -49,7 +49,7 @@
                     <input type="text" class="form-control" id="classes" name="classes" placeholder="Hãy nhập tên lớp" data-rule-required="true" data-msg-required="Vui lòng nhập tên lớp." value="{{$classes->name}}">
                 </div>
                 <button type="submit" class="btn btn-primary btn-save">Lưu</button>
-              </form>
+           </form>
 
         </div>
         <!-- /.card-body -->

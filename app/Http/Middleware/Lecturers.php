@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 use Illuminate\Support\Facades\Route;
 use Closure;
 use Auth;
-class Admin
+class Lecturers
 {
     /**
      * Handle an incoming request.
@@ -15,18 +15,16 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check()) {
-            $user   = Auth::user();
-            
-            if ($user->admin == 1 && $user->status == 1){
+        if (Auth::guard('lecturers')->check()) { 
+            if (Auth::guard('lecturers')->user()->status == 1){
                return $next($request);
             }
             else
-              return redirect('/login');
+              return redirect('lecturers/login');
         }
         else
         {
-          return redirect('/login');
+          return redirect('lecturers/login');
         }
 
     }

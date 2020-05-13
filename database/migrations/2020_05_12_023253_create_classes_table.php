@@ -23,7 +23,7 @@ class CreateClassesTable extends Migration
                 ->references('id')->on('branches')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-                $table->foreign('department_id')
+            $table->foreign('department_id')
                 ->references('id')->on('department')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

@@ -7,6 +7,7 @@ use App\Model\Department;
 use App\Model\Branches;
 use App\Model\Classes;
 use App\Model\Fields;
+use App\Model\Lecturers;
 class QllinhvucController extends Controller
 {
   public function Qllv()

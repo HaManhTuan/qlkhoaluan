@@ -1,5 +1,10 @@
 @extends('layout')
 @section('content')
+<style type="text/css" media="screen">
+  .change_status:hover{
+    cursor: pointer;
+  }
+</style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -24,88 +29,73 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">
-              
-           <form class="form-inline ml-3">
-           <div class="input-group input-group-sm">
-           <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-           <div class="input-group-append">
-           <button type="button" class="btn btn-primary btn-large btn-ssup"
-                  onclick="cms_paging_supplier(1)"><i class="fa fa-search"></i> Tìm kiếm
-           </button>
-           </div>
-           </div>
-           </form>
-
-           </div>
-
           <div class="card-tools">
             <div class="btn-groups">
                  <button type="button" class="btn btn-primary" data-toggle="modal"
                          data-target="#create-cust"><i class="fa fa-plus-circle"></i> Thêm Giảng viên
                  </button>
-                 <button type="button" class="btn btn-success" onclick=""><i class="fa fa-download"></i> Xuất Excel</button>
             </div>
           </div>
 
         </div>
 
         <div class="card-body p-0">
-          <table  class="table table-bordered table-striped">
+          <table  class="table table-bordered">
                         <thead>
                         <tr>
-                            <th class="text-center">Mã Giảng Viên</th>
+                            <th class="text-center" style="background-color: #fff;width: 50px;">TT</th>
                             <th class="text-center">Tên Giảng Viên</th>
-                            <th class="text-center">Khoa</th>
-                            <th class="text-center">Ngành</th>
-                            <th class="text-center">Địa Chỉ</th>
-                            <th class="text-center" style="background-color: #fff;">Action</th>
+                            <th class="text-center">Số đề tài</th>
+                            <th class="text-center" style="width: 100px">Trạng thái</th>
+                            <th class="text-center" style="background-color: #fff;width: 250px;">Hành động</th>
                         </tr>
                         </thead>
                         <tbody class="ajax-loadlist-customer">
-                        <?php if (isset($_list_customer) && count($_list_customer)) :
-                            foreach ($_list_customer as $key => $item) :
-                                ?>
-                                <tr id="tr-item-<?php echo $item['ID']; ?>">
-                                    <td onclick="cms_detail_customer(<?php echo $item['ID']; ?>)" class="text-center tr-detail-item"
-                                        style="cursor: pointer; color: #1b6aaa;"><?php echo $item['customer_code']; ?></td>
-                                    <td onclick="cms_detail_customer(<?php echo $item['ID']; ?>)" class="text-center tr-detail-item"
-                                        style="cursor: pointer; color: #1b6aaa;"><?php echo $item['customer_name']; ?></td>
-                                    <td class="text-center"><?php echo (!empty($item['customer_phone'])) ? $item['customer_phone'] :
-                                            '-'; ?></td>
-                                    <td class="text-center"><?php echo (!empty($item['customer_addr'])) ? $item['customer_addr'] :
-                                            '-'; ?></td>
-                                    <td class="text-center"><?php echo (!empty($item['sell_date'])) ? $item['sell_date'] :
-                                            '-'; ?></td>
-                                    <td class="text-right"
-                                        style="font-weight: bold; background-color: #f9f9f9;"><?php echo (!empty($item['total_money'])) ? number_format($item['total_money']) :
-                                            '-'; ?></td>
-                                    <td class="text-right"><?php echo (!empty($item['total_debt'])) ? number_format($item['total_debt']) :
-                                            '-'; ?></td>
-                                    <td class="text-center"><i class="fa fa-trash-o" style="cursor:pointer;"
-                                                               onclick="cms_delCustomer(<?php echo $item['ID']; ?>,1);"></i>
-                                    </td>
-                                </tr>
-                            <?php
-                            endforeach;
-                        else: ?>
+                          @foreach ($lecturers as $element)
                             <tr>
-                                <td colspan="8" class="text-center">Không có dữ liệu</td>
+                              <td>{{$element->id}}</td>
+                              <td>{{$element->name_lecturer}}</td>
+                              <td class="project_progress">
+                                {{ $element->lecturers_id}}
+                                @php
+                                  $countTopicAcc = DB::table('topics')->where(['lecturers_id' => $element->id, 'accept' => 1])->count();
+                                @endphp
+                                  <div class="progress">
+                                    <div class="progress-bar bg-primary progress-bar-striped" role="progressbar" aria-valuenow="{{$countTopicAcc}}" aria-valuemin="0" aria-valuemax="{{ count($element->topics)}}" style="width: {{($countTopicAcc/count($element->topics))*100}}%">
+                                      <span class="sr-only">{{($countTopicAcc/count($element->topics))*100}}% Complete (success)</span>
+                                    </div>
+                                  </div>
+                                   <p class="text-center">{{$countTopicAcc }}/{{ count($element->topics)}} đề tài </p>
+        
+                              </td>
+                              <td class="project-state text-center">
+                                @if ($element->status == 1)
+                                  <span class="badge badge-success change_status" data-id="{{ $element->id }}">Active</span>
+                                @else
+                                  <span class="badge badge-danger change_status" data-id="{{ $element->id }}">Unactive</span>
+                                @endif
+                              </td>
+                              <td class="project-actions text-center">
+                                  <a class="btn btn-primary btn-sm" href="{{ url('chi-tiet-gv/'.$element->id) }}">
+                                      <i class="fas fa-folder">
+                                      </i>
+                                      Xem
+                                  </a>
+                                  <a class="btn btn-info btn-sm" href="#">
+                                      <i class="fas fa-pencil-alt">
+                                      </i>
+                                      Sửa
+                                  </a>
+                                  <a class="btn btn-danger btn-sm" href="#">
+                                      <i class="fas fa-trash">
+                                      </i>
+                                      Xóa
+                                  </a>
+                              </td>
                             </tr>
-                        <?php endif; ?>
+                          @endforeach
                         </tbody>
-
-                    </table>
-                 
-                 <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                </ul>
-              </div>
+          </table>
             </div>
 
         </div>
@@ -116,6 +106,48 @@
     </section>
     <!-- /.content -->
   </div>
-
+<script>
+  $(document).ready(function() {
+     const Toast = Swal.mixin({
+       toast: true,
+       position: 'top-end',
+       showConfirmButton: false,
+       timer: 3000
+    });
+    $(".change_status").click(function(){
+      let id = $(this).data("id");
+      $.ajax({
+        url: '{{ url('change-status') }}',
+        type: 'POST',
+        dataType: 'JSON',
+         headers: {
+            'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+          },
+        data: {id: id },
+        success:function(data){
+          
+          if(data.status = "_success"){
+            Toast.fire({
+                type: 'success',
+                title: data.msg
+            }).then(() => {
+                  location.reload();
+                });
+            // if(data.action == "1"){
+            //      $(".project-state").html("<span class='badge badge-success change_status' data-id='"+data.action+"'>Active</span>");
+            // }
+            // else{
+            //     $(".project-state").html("<span class='badge badge-danger change_status' data-id='"+data.action+"'>Unactive</span>");
+            // }
+          }
+         
+        },
+        error:function(err){
+          console.log(err);
+        }
+      });
+    });
+  });
+</script>
 
 @endsection

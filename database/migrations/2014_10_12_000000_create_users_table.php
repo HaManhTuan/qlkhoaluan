@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->longText('born')->nullable();
             $table->longText('phone')->nullable();
             $table->integer('admin');
+            $table->integer('status')->default('0');
             $table->timestamps();
         });
     }
