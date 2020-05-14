@@ -74,12 +74,12 @@ class StudentsController extends Controller
   }
   public function changeregisterfields(Request $req)
   {
-    $TopicProtection = TopicProtection::orderBy('created_at','DESC')->select('id')->get()->toArray();
+    $TopicProtection = TopicProtection::orderBy('created_at','DESC')->select('id_topic')->get()->toArray();
     $topics = Topics::where('accept',1)->where('fields_id',$req->field_id)->whereNotIn('id',$TopicProtection)->get();
     return json_encode($topics);
-    // echo "<pre>";
-    // print_r($topics);
-    // echo "</pre>";
+    
+    
+   
   }
   public function registerpostTopics(Request $req){
     $TopicProtection = new TopicProtection();

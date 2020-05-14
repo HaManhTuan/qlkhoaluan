@@ -24,32 +24,39 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-        
-{{--               <div class="row" align="center">
-                <div class="col-md-3">
-                  <select name="branch_id" class="form-control" style="padding-top: 5px;" id="filter_branches">
-                    <option>--Ngành--</option>
-                      @foreach($branches as $branches)
-                            <option value="{{ $branches->branches->id }}">{{ $branches->branches->name }}</option>
-                       @endforeach
-                    </select>
-                  </div>
-                <div class="col-md-3"> 
-                   <select name="classes_id" class="form-control" style="padding-top: 5px;" id="filter_classes">
-                    <option>--Lớp--</option>
-                      @foreach($classes as $classes)
-                            <option value="{{ $classes->classes->id }}">{{ $classes->classes->name }}</option>
-                       @endforeach
-                    </select>
+          @if(count($errors) > 0)
+              <div class="alert alert-danger">
+               Upload Validation Error<br><br>
+               <ul>
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+               </ul>
+              </div>
+             @endif
+
+             @if($message = Session::get('success'))
+             <div class="alert alert-success alert-block">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+                     <strong>{{ $message }}</strong>
+             </div>
+             @endif
+              <form method="POST" enctype="multipart/form-data" action="{{ url('import-sv') }}">
+                {{ csrf_field() }}
+                <div class="form-group">
+                 <table class="table">
+                  <tr>
+                   <td width="40%" align="right"><label>Import Excel</label></td>
+                   <td width="30">
+                    <input type="file" name="select_file" />
+                   </td>
+                   <td width="30%" align="left">
+                    <input type="submit" name="upload" class="btn btn-primary" value="Upload">
+                   </td>
+                  </tr>
+                 </table>
                 </div>
-                  <div class="col-md-4">
-                       <div class="form-group" align="left">
-                        <button type="button" name="filter" id="filter" class="btn btn-info">Lọc</button>
-                        <button type="button" name="reset" id="reset" class="btn btn-default">Reset</button>
-                    </div>
-                  </div>
-              </div> --}}
-          
+               </form>
         </div>
         <div class="card-body p-4">
           <table  class="table table-bordered table-striped" id="studentTable">

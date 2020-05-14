@@ -224,7 +224,7 @@
               <li class="nav-item">
                 <a href="{{route("detai-gv")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Đề Tài Của Bạn </p>
+                  <p>Ngân hàng để tài </p>
                 </a>
               </li>
             </ul>

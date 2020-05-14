@@ -16,7 +16,7 @@ class Lecturers extends Authenticatable
    */
   protected $guard    = 'lecturers';
   protected $fillable = [
-    'name_lecturer ', 'email_address_lecturer', 'password'
+  'name_lecturer','email_address_lecturer','password','status','address_lecturer','phone_number','id_department','id_field'
   ];
 
   /**

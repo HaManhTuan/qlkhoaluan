@@ -43,7 +43,7 @@ class LoginController extends Controller
       $validated = $req->validated();
       $data = $req->all();
       if (Auth::attempt(['email' =>$data['email'], 'password' => $data['password'], 'admin' => '1']) || Auth::guard('lecturers')->attempt(['email_address_lecturer' =>$data['email'], 'password' => $data['password'], 'status' => '1'])) {
-        return redirect('index');  
+        return redirect('/');  
       }
       else {
         return redirect('login')->with('flash_message_error','Tài khoản hoặc mật khẩu  sai');    

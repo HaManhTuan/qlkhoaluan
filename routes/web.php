@@ -65,12 +65,14 @@ Route::get('qlsinhvien',[
       'as'=>'ql-sinhvien',
       'uses'=>'QlsinhvienController@getQlsinhvien'
 ]);
+Route::post('import-sv','QlsinhvienController@import');
 
 //qlgiangvien
 Route::get('qlgiangvien',[
       'as'=>'ql-giangvien',
       'uses'=>'QlgiangvienController@getQlgiangvien'
 ]);
+Route::post('import-gv','QlgiangvienController@import');
 Route::post('change-accept','QlgiangvienController@changeaccept');
 Route::post('delete-topic','QlgiangvienController@deletetopic');
 //Xem chi tiet
@@ -78,6 +80,7 @@ Route::get('chi-tiet-gv/{id}','QlgiangvienController@detaillectures');
 
 //Change-status-gv
 Route::post('change-status','QlgiangvienController@changestatus');
+Route::post('change-acceptance-dt','QlgiangvienController@changeacceptancedt');
 Route::get('danhsachsvdk',[
       'as'=>'danhsach-svdk',
       'uses'=>'QlgiangvienController@getDanhsachsvdk'
@@ -90,8 +93,10 @@ Route::get('detaigv',[
 //Change-status-dtgv
 Route::post('change-dtgv-status','QlgiangvienController@changedtstatus');
 //Delete-dtgv
+Route::post('import-nganhang','QlgiangvienController@importnganhang');
 Route::post('delete-dtgv-all','QlgiangvienController@deletedtgvall');
 Route::get('detail-dt-gv/{id}','QlgiangvienController@detaildtgv');
+
 
 
 

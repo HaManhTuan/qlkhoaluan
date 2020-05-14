@@ -10,6 +10,9 @@ use App\Model\Fields;
 use App\Model\Lecturers;
 use App\Model\Topics;
 use App\Model\TopicProtection;
+use App\Imports\LecturersImport;
+use App\Imports\TopicsImport;
+use Excel;
 class QlgiangvienController extends Controller
 {
     public function getQlgiangvien(){
@@ -59,6 +62,9 @@ class QlgiangvienController extends Controller
       $TopicProtection = TopicProtection::with('topics')->with('students')->orderBy('created_at','DESC')->get();
     	return view('qlgiangvien.danhsachsvdk')->with('TopicProtection',$TopicProtection);
     }
+
+
+
     public function getDetaigv(){
       $topics = Topics::orderBy('created_at','DESC')->get();
     	return view('qlgiangvien.detaigv')->with('topics',$topics);
@@ -125,5 +131,44 @@ class QlgiangvienController extends Controller
       ];
       return response()->json($msg);
       }
+  }
+    public function changeacceptancedt(Request $req)
+  {
+    $id         = $req->id;
+      $length     = $req->length;
+      $status     = $req->status;
+      $id_array   = explode(",", $id);
+      if (TopicProtection::whereIn('id', $id_array)->update(['acceptance' => $status])) {
+        $msg = [
+        'status' => '_success',
+        'msg'    => $length.' mục đã được thay đổi.'
+        ];
+        return response()->json($msg);
+      }
+      else {
+        $msg = [
+        'status' => '_error',
+        'msg'    => 'Có lỗi xảy ra. Vui lòng thử lại.'
+      ];
+      return response()->json($msg);
+      }
+  }
+  public function import(Request $request)
+  {
+     $this->validate($request, [
+      'select_file'  => 'required|mimes:xls,xlsx'
+     ]);
+     $path = $request->file('select_file')->getRealPath();
+     Excel::import(new LecturersImport, $path);
+     return back()->with('success', 'Bạn đã import thành công.');
+  }
+  public function importnganhang(Request $request)
+  {
+    $this->validate($request, [
+      'select_file'  => 'required|mimes:xls,xlsx'
+     ]);
+     $path = $request->file('select_file')->getRealPath();
+     Excel::import(new TopicsImport, $path);
+     return back()->with('success', 'Bạn đã import thành công.');
   }
 }
