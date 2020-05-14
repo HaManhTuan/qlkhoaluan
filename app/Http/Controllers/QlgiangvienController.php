@@ -9,6 +9,7 @@ use App\Model\Classes;
 use App\Model\Fields;
 use App\Model\Lecturers;
 use App\Model\Topics;
+use App\Model\TopicProtection;
 class QlgiangvienController extends Controller
 {
     public function getQlgiangvien(){
@@ -55,10 +56,12 @@ class QlgiangvienController extends Controller
       //print_r($req->all());
     }
     public function getDanhsachsvdk(){
-    	return view('qlgiangvien.danhsachsvdk');
+      $TopicProtection = TopicProtection::with('topics')->with('students')->orderBy('created_at','DESC')->get();
+    	return view('qlgiangvien.danhsachsvdk')->with('TopicProtection',$TopicProtection);
     }
     public function getDetaigv(){
-    	return view('qlgiangvien.detaigv');
+      $topics = Topics::orderBy('created_at','DESC')->get();
+    	return view('qlgiangvien.detaigv')->with('topics',$topics);
     }
     public function changeaccept(Request $req)
     {
@@ -101,5 +104,26 @@ class QlgiangvienController extends Controller
       ];
       return response()->json($msg);
     }
+  }
+  public function changedtstatus(Request $req)
+  {
+    $id         = $req->id;
+      $length     = $req->length;
+      $status     = $req->status;
+      $id_array   = explode(",", $id);
+      if (Topics::whereIn('id', $id_array)->update(['accept' => $status])) {
+        $msg = [
+        'status' => '_success',
+        'msg'    => $length.' mục đã được thay đổi.'
+        ];
+        return response()->json($msg);
+      }
+      else {
+        $msg = [
+        'status' => '_error',
+        'msg'    => 'Có lỗi xảy ra. Vui lòng thử lại.'
+      ];
+      return response()->json($msg);
+      }
   }
 }

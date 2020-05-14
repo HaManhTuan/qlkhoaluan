@@ -52,40 +52,57 @@ $(document).ready(function() {
     <section class="content">
       <div class="card">
         <div class="card-body p-4">
-          @if ($TopicProtection->count() > 0)
-          <div class="callout callout-danger">
-            <h5>Thông báo! Bạn đã đăng kí đề tài:</h5>
-
-            <p>{{$TopicProtection->topics->name}}.</p>
-          </div>
-            @else
-          <form action="{{ url('students/register-post-topic') }}" method="POST">
-            @csrf
-            <div class="form-group">
-                <label for="department">Lĩnh Vực</label>
-                <select name="field_id" class="form-control col-md-7" id="field_id">
-                   <option value="" disabled="disabled" selected="selected">--- Chọn Lĩnh Vực ---</option>
-                   {!!$data_field_select!!}
-                </select>
+          @if (isset($TopicProtection) && $TopicProtection->count() > 0 && $TopicProtection->acceptance == 1)
+            <div class="callout callout-success">
+              <h5>Thông báo! Bạn đã đăng kí đề tài:</h5>
+              <p>{{$TopicProtection->topics->name}}.</p>
+              <p>GVHD: {{$Topics->branches->name_lecturer}}</p>
+              <p>Email: {{$Topics->branches->email_address_lecturer}}</p>
+              <p>SĐT: {{$Topics->branches->phone_number}}</p>
+              <p>Địa chỉ: {{$Topics->branches->address_lecturer}}</p>
+              <p>Đợt bảo vệ dự kiến: {{$Protections->name}}</p> 
+              <span>Thời gian dự kiến: {{$Protections->time_start}} - {{$Protections->time_end}}</span>
             </div>
-            <div class="form-group">
-                <label for="topics_id">Đề Tài</label>
-                <select name="topics_id" class="form-control" id="topics_id">
-                    <option value="" disabled="disabled" selected="selected">--- Chọn Đề Tài---</option>
-                </select>
+          @elseif(isset($TopicProtection) && $TopicProtection->count() > 0)
+            <div class="callout callout-danger">
+              <h5>Thông báo! Bạn đã đăng kí đề tài:</h5>
+              <p>{{$TopicProtection->topics->name}}.</p>
             </div>
-          <div class="form-group">
-            
-         
-             <button type="submit" class="btn btn-primary btn-register">Đăng kí</button>
-            @endif
            
-            
+          @else
+            <form action="{{ url('students/register-post-topic') }}" method="POST">
+              @csrf
+              <div class="form-group">
+                  <label for="department">Lĩnh Vực</label>
+                  <select name="field_id" class="form-control col-md-7" id="field_id">
+                     <option value="" disabled="disabled" selected="selected">--- Chọn Lĩnh Vực ---</option>
+                     {!!$data_field_select!!}
+                  </select>
+              </div>
+              <div class="form-group">
+                  <label for="topics_id">Đề Tài</label>
+                  <select name="topics_id" class="form-control" id="topics_id">
+                      <option value="" disabled="disabled" selected="selected">--- Chọn Đề Tài---</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                  <label for="id_protection">Đợt bảo vệ</label>
+                  <select name="id_protection" class="form-control" id="id_protection">
+                      <option value="" disabled="disabled" selected="selected">--- Chọn Đợt Bảo Vệ---</option>
+                      @foreach ($protectionsdata as $element)
+                         <option value="{{$element->id}}">{{$element->name}}</option>
+                      @endforeach
+                  </select>
+              </div>
+            <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-register">Đăng kí</button>
+          @endif
           </div>
           </form>
         </div>
       </div>
     </section>
+
 </div>
 <script>
   // Change
@@ -101,7 +118,7 @@ $(document).ready(function() {
                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
               },
               success: function(data) {
-                //console.log(data);
+                console.log(data);
                   let branches_html = "";
                   if (data  != "") {
                     $.each(data, function(index, value) {

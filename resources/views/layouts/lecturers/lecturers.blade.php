@@ -133,6 +133,14 @@
                with font-awesome or any other icon font library -->
           <li class="nav-header">QUẢN LÝ</li>
           <li class="nav-item">
+            <a href="{{ url('lecturers/dashboard') }}" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
+              <p>
+                Trang chủ
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{ url('lecturers/topic/view-topic') }}" class="nav-link">
               <i class="nav-icon fas fa-user-shield"></i>
               <p>

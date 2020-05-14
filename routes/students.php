@@ -7,5 +7,7 @@ Route::group(['prefix' => 'students', 'middleware' => 'Students'], function () {
   Route::get('register-topic', 'StudentsController@registerTopics');
   Route::post('change-register-fields', 'StudentsController@changeregisterfields');
   Route::post('register-post-topic', 'StudentsController@registerpostTopics');
+  Route::post('change-password','StudentsController@changepass');
+  
 });
 ?>

@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 //login
 Route::get('login',[
       'as'=>'lo-gin',
@@ -29,7 +26,7 @@ Route::post('register-post','LoginController@registerpost');
 
 Route::group(['middleware' => 'Admin'], function () {
 Route::get('dang-xuat','LoginController@logout')->name("dang-xuat");
-Route::get('index','PageController@getIndex')->name("trang-chu");
+Route::get('/','PageController@getIndex')->name("trang-chu");
 //Permissions
     Route::get('user/permissions', 'PermissionsController@index');
     Route::get('user/add-permissions', 'PermissionsController@add');
@@ -55,7 +52,9 @@ Route::get('qlkhoaluan',[
       'as'=>'ql-khoaluan',
       'uses'=>'QlkhoaluanController@getQlkhoaluan'
 ]);
-
+Route::get('detail-kl/{id}','QlkhoaluanController@detailkl');
+//Change-status-detaial
+Route::post('change-detail-kl','QlkhoaluanController@changedetailkl');
 Route::get('dangkidt',[
       'as'=>'dangki-dt',
       'uses'=>'QlkhoaluanController@getDangkidt'
@@ -76,6 +75,7 @@ Route::post('change-accept','QlgiangvienController@changeaccept');
 Route::post('delete-topic','QlgiangvienController@deletetopic');
 //Xem chi tiet
 Route::get('chi-tiet-gv/{id}','QlgiangvienController@detaillectures');
+
 //Change-status-gv
 Route::post('change-status','QlgiangvienController@changestatus');
 Route::get('danhsachsvdk',[
@@ -87,6 +87,18 @@ Route::get('detaigv',[
       'as'=>'detai-gv',
       'uses'=>'QlgiangvienController@getDetaigv'
 ]);
+//Change-status-dtgv
+Route::post('change-dtgv-status','QlgiangvienController@changedtstatus');
+//Delete-dtgv
+Route::post('delete-dtgv-all','QlgiangvienController@deletedtgvall');
+Route::get('detail-dt-gv/{id}','QlgiangvienController@detaildtgv');
+
+
+
+
+
+
+
 
 //qllinhvuc
 
@@ -96,6 +108,7 @@ Route::post('postqllinhvuc','QllinhvucController@postqllinhvuc');
 Route::post('post-modal-field','QllinhvucController@postmodalfield');
 Route::post('postupdateqllinhvuc','QllinhvucController@postupdateqllinhvuc');
 Route::post('delete-fields','QllinhvucController@deletefields');
+
 //Khoa
 Route::get('qlkhoa',[
       'as'=>'ql-khoa',
@@ -152,6 +165,8 @@ Route::get('danhsachdbv',[
       'uses'=>'QldotbaoveController@getQldotbaove'
 ]);
 Route::get('add-protection','QldotbaoveController@add');
+Route::get('edit-protection/{id}','QldotbaoveController@edit');
+Route::post('edit-post-protections','QldotbaoveController@editpost');
 Route::post('add-post-protections','QldotbaoveController@addpost');
 Route::post('change-status-hd','QldotbaoveController@changestatushd');
 

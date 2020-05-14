@@ -21,10 +21,10 @@ class QldotbaoveController extends Controller
       $Protections->time_start = (($req->start_time));
       $Protections->time_end = (($req->end_time));
       if ($Protections->save()) {
-        return redirect('danhsachdbv')->with('','Bạn đã thêm mới một đợt bảo vệ');
+        return redirect('danhsachdbv')->with('flash_message_success','Bạn đã thêm mới một đợt bảo vệ');
       }
       else{
-          return redirect('danhsachdbv')->with('','Có lỗi xảy ra. Vui lòng thử lại');
+          return redirect('danhsachdbv')->with('flash_message_error','Có lỗi xảy ra. Vui lòng thử lại');
       }
     }
     public function changestatushd(Request $req)
@@ -55,6 +55,25 @@ class QldotbaoveController extends Controller
         'msg'    => "Có lỗi xảy ra. Vui lòng thử lại",
         );
         return response()->json($msg);
+      }
+    }
+    public function edit($id)
+    {
+        $Protections = Protections::find($id);
+     return view('qldotbaove.edit')->with('Protections',$Protections);
+    }
+    public function editpost(Request $req)
+    {
+      $Protections = Protections::where('id',$req->id)->first();
+      $Protections->name= $req->name;
+      $Protections->time_start = (($req->start_time));
+      $Protections->time_end = (($req->end_time));
+      $Protections->accept = $req->has('accept')?'1':'0';
+       if ($Protections->save()) {
+        return redirect('danhsachdbv')->with('flash_message_success','Bạn đã sửa một đợt bảo vệ');
+      }
+      else{
+          return redirect('danhsachdbv')->with('flash_message_error','Có lỗi xảy ra. Vui lòng thử lại');
       }
     }
 }

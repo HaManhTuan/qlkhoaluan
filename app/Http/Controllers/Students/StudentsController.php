@@ -9,6 +9,9 @@ use Auth;
 use App\Model\Fields;
 use App\Model\Topics;
 use App\Model\TopicProtection;
+use App\Model\Protections;
+use App\Model\Students;
+use Hash;
 class StudentsController extends Controller
 {
   public function getDataFieldSelect( $current_id = '') {
@@ -52,28 +55,63 @@ class StudentsController extends Controller
   public function registerTopics()
   {
     $TopicProtection = TopicProtection::with('topics')->where('id_student',Auth::guard('students')->user()->id)->first();
-    // echo "<pre>";
-    // print_r($TopicProtection);
-    // echo "</pre>";
-    // die();
+    if (isset($TopicProtection->id_topic) && $TopicProtection->id_topic != "") {
+      $Topics = Topics::with('branches')->where('id',$TopicProtection->id_topic)->first();
+    }
+    else {
+      $Topics ="";
+    }
+    
+    if (isset($TopicProtection->id_protection) && $TopicProtection->id_protection != "") {
+     $Protections = Protections::where('id',$TopicProtection->id_protection)->first();
+    }
+    else{
+      $Protections ="";
+    }
     $data_field_select   = $this->getDataFieldSelect();
-    return view('students.registerTopic')->with('data_field_select',$data_field_select)->with('TopicProtection',$TopicProtection);
+    $protectionsdata   = Protections::where('accept',1)->where('time_end', '>=', date("Y-m-d"))->orderBy('created_at','DESC')->get();
+    return view('students.registerTopic')->with('data_field_select',$data_field_select)->with('TopicProtection',$TopicProtection)->with('Topics',$Topics)->with('Protections',$Protections)->with('protectionsdata',$protectionsdata);
   }
   public function changeregisterfields(Request $req)
   {
     $TopicProtection = TopicProtection::orderBy('created_at','DESC')->select('id')->get()->toArray();
-    $topics = Topics::where('accept',1)->whereNotIn('id',$TopicProtection)->get();
+    $topics = Topics::where('accept',1)->where('fields_id',$req->field_id)->whereNotIn('id',$TopicProtection)->get();
     return json_encode($topics);
+    // echo "<pre>";
+    // print_r($topics);
+    // echo "</pre>";
   }
   public function registerpostTopics(Request $req){
     $TopicProtection = new TopicProtection();
     $TopicProtection->id_student = Auth::guard('students')->user()->id;
     $TopicProtection->id_topic = $req->topics_id;
+    $TopicProtection->id_protection = $req->id_protection;
      if ($TopicProtection->save()) {
       return redirect('students/register-topic')->with('flash_message_success','Bạn đã đăng kí thành công.');
      }
      else{
       return redirect('students/register-topic')->with('flash_message_error','Có lỗi xảy ra vui lòng thử lại');  
      }
+  }
+  public function changepass(Request $req)
+  {
+        $pwd        = $req->retypeNewPwd;
+        $pwd_bcrypt = Hash::make($pwd);
+        $id         = $req->id;
+        $query      = Students::where("id", $id)->update(['password' => $pwd_bcrypt]);
+        if (!$query || $query == false) {
+            $msg = [
+                'status' => '_error',
+                'msg'    => 'Có lỗi xảy ra. Vui lòng thử lại'
+            ];
+            return response()->json($msg);
+        } else {
+            Auth::guard('students')->logout();
+            $msg = [
+                'status' => '_success',
+                'msg'    => 'Mật khẩu đã được thay đổi thành công'
+            ];
+            return response()->json($msg);
+        }
   }
 }

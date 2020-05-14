@@ -15,7 +15,7 @@ $(document).ready(function() {
      timer: 3000
  });
    Toast.fire({
-       icon: 'error',
+       type: 'error',
       title: "{{ Session::get('flash_message_error') }}"
   });
 });
@@ -31,7 +31,7 @@ $(document).ready(function() {
      timer: 3000
  });
    Toast.fire({
-       icon: 'success',
+       type: 'success',
       title: "{{ Session::get('flash_message_success') }}"
   });
 });
@@ -92,7 +92,7 @@ $(document).ready(function() {
                                   <span class="badge badge-danger change_status" data-id="{{ $element->id }}">Unactive</span>
                                 @endif</td>
                      <td>
-                       <button class="btn btn-success btn-edit-depart" data-id="{{ $element->id}}"><i class="fas fa-pencil-alt"></i></button>
+                       <button class="btn btn-success btn-edit-depart" data-id="{{ $element->id}}"><i class="fas fa-pencil-alt" onclick="window.location.href='{{ url('edit-protection/'.$element->id) }}'"></i></button>
                        <button class="btn btn-danger btn-del-depart" data-id="{{ $element->id}}"><i class="fas fa-trash"></i></button>
                      </td>
                     </tr>

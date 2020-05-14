@@ -56,16 +56,32 @@
                               <td>{{$element->id}}</td>
                               <td>{{$element->name_lecturer}}</td>
                               <td class="project_progress">
-                                {{ $element->lecturers_id}}
+                                @if ($element->status == 1)
                                 @php
-                                  $countTopicAcc = DB::table('topics')->where(['lecturers_id' => $element->id, 'accept' => 1])->count();
+                                  $countTopicAcc = DB::table('topics')->where(['lecturers_id' => $element->id, 'accept' => 1])->get();
+                                  // print_r(count($countTopicAcc));
+                                  // die();
                                 @endphp
+                                @if (isset($countTopicAcc) && $countTopicAcc != "")
+                                @if (count($element->topics) > 0) 
                                   <div class="progress">
-                                    <div class="progress-bar bg-primary progress-bar-striped" role="progressbar" aria-valuenow="{{$countTopicAcc}}" aria-valuemin="0" aria-valuemax="{{ count($element->topics)}}" style="width: {{($countTopicAcc/count($element->topics))*100}}%">
-                                      <span class="sr-only">{{($countTopicAcc/count($element->topics))*100}}% Complete (success)</span>
+                                    <div class="progress-bar bg-primary progress-bar-striped" role="progressbar" aria-valuenow="{{(count($countTopicAcc))}}" aria-valuemin="0" aria-valuemax="{{ count($element->topics)}}" 
+                                      style="
+                                      width: {{(count($countTopicAcc)/count($element->topics))*100}}%
+                                      ">
+                                      <span class="sr-only">
+                                        {{(count($countTopicAcc)/count($element->topics))*100}}% Complete (success)
+                                      </span>
                                     </div>
                                   </div>
-                                   <p class="text-center">{{$countTopicAcc }}/{{ count($element->topics)}} đề tài </p>
+                                   <p class="text-center">{{count($countTopicAcc) }}/{{ count($element->topics)}} đề tài </p>
+                                @else
+                                   <p class="text-center">{{count($countTopicAcc) }}/{{ count($element->topics)}} đề tài </p>
+                                @endif
+                                  
+                                @endif
+                                @endif
+                               
         
                               </td>
                               <td class="project-state text-center">

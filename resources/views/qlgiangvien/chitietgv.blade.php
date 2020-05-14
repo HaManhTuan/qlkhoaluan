@@ -85,9 +85,6 @@
                   </button>
                 </div>
               </div>
-              
-        
-            
             </div>
           </div>
 
@@ -144,9 +141,9 @@
 </div>
 
 <script type='text/javascript'>
- $(document).ready(function(){
+$(document).ready(function(){
    // Check or Uncheck All checkboxes
-   $("#checkall").change(function(){
+  $("#checkall").change(function(){
      var checked = $(this).is(':checked');
      if(checked){
 
@@ -163,7 +160,7 @@
          $(this).prop("checked",false);
        });
      }
-   });
+  });
  
   // Changing state of CheckAll checkbox 
   $(".checkbox").click(function(){
