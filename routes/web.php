@@ -25,6 +25,18 @@ Route::post('register-post','LoginController@registerpost');
 
 
 Route::group(['middleware' => 'Admin'], function () {
+
+
+ Route::get('council/add', 'Admin\ProtectLecturerController@add');
+ Route::get('council/export', 'Admin\ProtectLecturerController@export');
+ Route::post('council/add-post', 'Admin\ProtectLecturerController@addPost');
+ Route::get('council/edit/{id}', 'Admin\ProtectLecturerController@edit');
+ Route::post('council/edit', 'Admin\ProtectLecturerController@editPost');
+ Route::post('council/delete', 'Admin\ProtectLecturerController@delete');
+ Route::post('council/change-protect','QlhoidongController@chaneProtect');
+ Route::post('council/delete-council','QlhoidongController@delete');
+ Route::get('council/detail/{id_council}','QlhoidongController@detail');
+
 Route::get('dang-xuat','LoginController@logout')->name("dang-xuat");
 Route::get('/','PageController@getIndex')->name("trang-chu");
 //Permissions
@@ -46,6 +58,7 @@ Route::get('qlhoidong',[
       'as'=>'ql-hoidong',
       'uses'=>'QlhoidongController@getQlhoidong'
 ]);
+
 
 //qlkhoaluan
 Route::get('qlkhoaluan',[
@@ -174,6 +187,7 @@ Route::get('edit-protection/{id}','QldotbaoveController@edit');
 Route::post('edit-post-protections','QldotbaoveController@editpost');
 Route::post('add-post-protections','QldotbaoveController@addpost');
 Route::post('change-status-hd','QldotbaoveController@changestatushd');
+Route::post('departmenr/delete','QldotbaoveController@delete');
 
 //taikhoan
 
@@ -181,6 +195,9 @@ Route::get('taikhoan',[
       'as'=>'tai-khoan',
       'uses'=>'TaikhoanController@getTaikhoan'
 ]);
+
+
+
 
 
 });

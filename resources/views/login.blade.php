@@ -66,18 +66,12 @@
       </form>
       <div class="social-auth-links text-center mb-3">
         <p>- OR -</p>
-        <a href="{{ url('register-teacher') }}" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i> Đăng kí tài khoản giáo viên 
-        </a>
         <a href="{{ url('lecturers/login') }}" class="btn btn-block btn-primary">
           <i class="fab fa-facebook mr-2"></i> Đăng nhập Giáo Viên 
         </a>
       </div>
        <div class="social-auth-links text-center mb-3">
         <p>- OR -</p>
-        <a href="{{ url('register-students') }}" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i> Đăng kí tài khoản học sinh 
-        </a>
         <a href="{{ url('students/login') }}" class="btn btn-block btn-primary">
           <i class="fab fa-facebook mr-2"></i> Đăng nhập học sinh 
         </a>

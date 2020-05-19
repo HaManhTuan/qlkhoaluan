@@ -30,14 +30,11 @@
       <div class="card">
         <div class="card-header">
 
-{{--           <div class="card-tools">
+          <div class="card-tools">
             <div class="btn-groups">
-                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                         data-target="#create-cust"><i class="fa fa-plus-circle"></i> Thêm Đề Tài
-                 </button>
-                 <button type="button" class="btn btn-success" onclick=""><i class="fa fa-download"></i> Xuất Excel</button>
+                 <a href="{{ url('council/export') }}" class="btn btn-success" onclick=""><i class="fa fa-download"></i> Xuất Excel</a>
             </div>
-          </div> --}}
+          </div>
 
         </div>
 
@@ -45,9 +42,7 @@
             <table  class="table table-bordered table-striped">
               <thead>
                 <tr>
-                    <th class="text-center" style="background-color: #fff;width: 50px;">
-                      <input type="checkbox" id="checkall"/>
-                    </th>
+                    
                     <th class="text-center">Tên Đề Tài</th>
                     <th class="text-center">SV</th>
                     <th class="text-center">Trạng thái</th>
@@ -56,7 +51,7 @@
               <tbody class="ajax-loadlist-customer">
                 @foreach ($TopicProtection as $element)
                 <tr class="trTable" onclick="window.location.href='{{ url('detail-kl/'.$element->id) }}'">
-                   <td class="text-center"><input type="checkbox" class="checkbox" name="topics_id" value="{{$element->id}}"/></td>
+                  
                    <td>{{$element->topics->name}}</td>
                    <td>{{$element->students->name}}</td>
                    <td class="text-center">

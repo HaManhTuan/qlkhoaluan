@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\Protections;
+use App\Model\Department;
 class QldotbaoveController extends Controller
 {
     public function getQldotbaove(){
@@ -75,5 +76,14 @@ class QldotbaoveController extends Controller
       else{
           return redirect('danhsachdbv')->with('flash_message_error','Có lỗi xảy ra. Vui lòng thử lại');
       }
+    }
+    public function delete(Request $req)
+    {
+      Department::where('id',$req->id)->delete();
+      $msg = array(
+        'status' => "_success",
+        'msg'    => "Bạn đã xoá 1 đợt bảo vệ.",
+      );
+      return response()->json($msg);
     }
 }

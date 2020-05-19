@@ -93,7 +93,7 @@ $(document).ready(function() {
                                 @endif</td>
                      <td>
                        <button class="btn btn-success btn-edit-depart" data-id="{{ $element->id}}"><i class="fas fa-pencil-alt" onclick="window.location.href='{{ url('edit-protection/'.$element->id) }}'"></i></button>
-                       <button class="btn btn-danger btn-del-depart" data-id="{{ $element->id}}"><i class="fas fa-trash"></i></button>
+                       <button class="btn btn-danger btn-del" data-id="{{ $element->id}}"><i class="fas fa-trash"></i></button>
                      </td>
                     </tr>
                   @endforeach
@@ -145,5 +145,67 @@ $(document).ready(function() {
       });
     });
   });
+      $(".btn-del").on('click',function() {
+      let id = $(this).attr('data-id');
+      Swal({
+        title: 'Xác nhận xóa?',
+        type: 'error',
+        html: '<p>Bạn sắp xóa 1 đợt bảo vệ .</p><p>Bạn có chắn chắn muốn xóa?</p>',
+        showConfirmButton: true,
+        confirmButtonText: '<i class="ti-check" style="margin-right:5px"></i>Đồng ý',
+        confirmButtonColor: '#ef5350',
+        cancelButtonText: '<i class="ti-close" style="margin-right:5px"></i> Hủy bỏ',
+        showCancelButton: true,
+        focusConfirm: false,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value == true) {
+          $.ajax({
+            url: '{{ url('departmenr/delete') }}',
+            type: 'POST',
+            data: {id_council: id},
+            dataType: 'JSON',
+            headers: {
+              'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+            },
+            success: function(data) {
+                            //console.log(data);
+                            if(data.status == '_success') {
+                              Swal({
+                                title: data.msg,
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                type: 'success',
+                                timer: 2000
+                              }).then(() => {
+                                window.location.href="{{ url('danhsachdbv') }}";
+                              });
+                            } else {
+                              Swal({
+                                title: data.msg,
+                                showCancelButton: false,
+                                showConfirmButton: true,
+                                confirmButtonText: 'OK',
+                                type: 'error'
+                              });
+                            }
+                          },
+                          error: function(err) {
+                            console.log(err);
+                            Swal({
+                              title: 'Error ' + err.status,
+                              text: err.responseText,
+                              showCancelButton: false,
+                              showConfirmButton: true,
+                              confirmButtonText: 'OK',
+                              type: 'error'
+                            });
+                          }
+                        });
+        }
+        return false;
+      });
+      return false;
+    });
 </script>
 @endsection

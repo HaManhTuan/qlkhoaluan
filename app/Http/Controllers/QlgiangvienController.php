@@ -12,9 +12,32 @@ use App\Model\Topics;
 use App\Model\TopicProtection;
 use App\Imports\LecturersImport;
 use App\Imports\TopicsImport;
+
 use Excel;
 class QlgiangvienController extends Controller
 {
+  public function getDataFieldSelect( $current_id = '') {
+    $category_data = Fields::orderBy('created_at', 'asc')->get();
+    $data_select   = "";
+
+    foreach ($category_data as $category_item) {
+
+        if ($current_id != "") {
+          if ($category_item['id'] == $current_id) {
+            $selected = "selected='selected'";
+          } else {
+            $selected = "";
+          }
+        } else {
+          $selected = "";
+        }
+        $data_select .= '<option value="'.$category_item['id'].'" '.$selected.'>';
+        $data_select .= $category_item['name'];
+        $data_select .= '</option>';
+     
+    }
+    return $data_select;
+  }
     public function getQlgiangvien(){
       $lecturers = Lecturers::with('department')->with('field')->with('topics')->get();
       $data_send = ['lecturers' => $lecturers];
@@ -170,5 +193,12 @@ class QlgiangvienController extends Controller
      $path = $request->file('select_file')->getRealPath();
      Excel::import(new TopicsImport, $path);
      return back()->with('success', 'Bạn đã import thành công.');
+  }
+  public function detaildtgv($id)
+  {
+    $detailTopic = Topics::with('branches')->find($id);
+    $data_fields_select   = $this->getDataFieldSelect($detailTopic->fields_id);
+    $data_send = ['detailTopic' =>$detailTopic,'data_fields_select' => $data_fields_select];
+    return view('qlgiangvien.detaitopic')->with($data_send);
   }
 }

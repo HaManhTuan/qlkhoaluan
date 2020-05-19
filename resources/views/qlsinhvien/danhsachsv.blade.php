@@ -66,7 +66,7 @@
                     <th class="text-center">Tên Sinh Viên</th>
                     <th class="text-center">Ngành</th>
                     <th class="text-center">Lớp</th>
-                    <th class="text-center" style="background-color: #fff;">Action</th>
+                   
                 </tr>
                 </thead>
                 <tbody>

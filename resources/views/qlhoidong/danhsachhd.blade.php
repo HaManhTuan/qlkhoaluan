@@ -1,5 +1,42 @@
 @extends('layout')
 @section('content')
+<style>
+  #ds_protect{
+    display: none;
+  }
+</style>
+@if(Session::has('flash_message_error'))
+<script>
+$(document).ready(function() {
+ const Toast = Swal.mixin({
+     toast: true,
+     position: 'top-end',
+     showConfirmButton: false,
+     timer: 3000
+ });
+   Toast.fire({
+       type: 'error',
+      title: "{{ Session::get('flash_message_error') }}"
+  });
+});
+</script>
+ @endif
+ @if(Session::has('flash_message_success'))
+<script>
+$(document).ready(function() {
+ const Toast = Swal.mixin({
+     toast: true,
+     position: 'top-end',
+     showConfirmButton: false,
+     timer: 3000
+ });
+   Toast.fire({
+       type: 'success',
+      title: "{{ Session::get('flash_message_success') }}"
+  });
+});
+</script>
+ @endif
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -24,26 +61,10 @@
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <div class="card-title">
-              
-           <form class="form-inline ml-3">
-           <div class="input-group input-group-sm">
-           <input class="form-control form-control-navbar" type="search" placeholder="Mã Giảng Viên" aria-label="Search">
-           <input class="form-control form-control-navbar" type="search" placeholder="Khoa" aria-label="Search">
-           <div class="input-group-append">
-           <button type="button" class="btn btn-primary btn-large btn-ssup"
-                  onclick="cms_paging_supplier(1)"><i class="fa fa-search"></i> Tìm kiếm
-           </button>
-           </div>
-           </div>
-           </form>
-
-           </div>
 
           <div class="card-tools">
             <div class="btn-groups">
-                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                         data-target="#create-cust"><i class="fa fa-plus-circle"></i> Thêm Giảng viên
+                 <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url('council/add') }}'"><i class="fa fa-plus-circle"></i> Thêm Hội Đồng
                  </button>
                  <button type="button" class="btn btn-success" onclick=""><i class="fa fa-download"></i> Xuất Excel</button>
             </div>
@@ -51,64 +72,30 @@
 
         </div>
 
-        <div class="card-body p-0">
-          <table  class="table table-bordered table-striped">
-                        <thead>
-                        <tr>
-                            <th class="text-center">Mã Giảng Viên</th>
-                            <th class="text-center">Tên Giảng Viên</th>
-                            <th class="text-center">Khoa</th>
-                            <th class="text-center">Ngành</th>
-                            <th class="text-center">Action</th>
-                            
-                        </tr>
-                        </thead>
-                        <tbody class="ajax-loadlist-customer">
-                        <?php if (isset($_list_customer) && count($_list_customer)) :
-                            foreach ($_list_customer as $key => $item) :
-                                ?>
-                                <tr id="tr-item-<?php echo $item['ID']; ?>">
-                                    <td onclick="cms_detail_customer(<?php echo $item['ID']; ?>)" class="text-center tr-detail-item"
-                                        style="cursor: pointer; color: #1b6aaa;"><?php echo $item['customer_code']; ?></td>
-                                    <td onclick="cms_detail_customer(<?php echo $item['ID']; ?>)" class="text-center tr-detail-item"
-                                        style="cursor: pointer; color: #1b6aaa;"><?php echo $item['customer_name']; ?></td>
-                                    <td class="text-center"><?php echo (!empty($item['customer_phone'])) ? $item['customer_phone'] :
-                                            '-'; ?></td>
-                                    <td class="text-center"><?php echo (!empty($item['customer_addr'])) ? $item['customer_addr'] :
-                                            '-'; ?></td>
-                                    <td class="text-center"><?php echo (!empty($item['sell_date'])) ? $item['sell_date'] :
-                                            '-'; ?></td>
-                                    <td class="text-right"
-                                        style="font-weight: bold; background-color: #f9f9f9;"><?php echo (!empty($item['total_money'])) ? number_format($item['total_money']) :
-                                            '-'; ?></td>
-                                    <td class="text-right"><?php echo (!empty($item['total_debt'])) ? number_format($item['total_debt']) :
-                                            '-'; ?></td>
-                                    <td class="text-center"><i class="fa fa-trash-o" style="cursor:pointer;"
-                                                               onclick="cms_delCustomer(<?php echo $item['ID']; ?>,1);"></i>
-                                    </td>
-                                </tr>
-                            <?php
-                            endforeach;
-                        else: ?>
-                            <tr>
-                                <td colspan="8" class="text-center">Không có dữ liệu</td>
-                            </tr>
-                        <?php endif; ?>
-                        </tbody>
-
-                    </table>
-                 
-                 <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                </ul>
+        <div class="card-body p-2">
+          
+            <form action="" method="POST">
+              <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name" class="form-label">Đợt bảo vệ đồ án</label>
+                    <select name="id_protect" class="form-control" id="id_protect">
+                      <option value="" selected="" disabled="">-- Chọn đợt bảo vệ --</option>
+                      @foreach ($Protections as $element)
+                        <option value="{{$element->id}}">{{$element->name}}</option>
+                      @endforeach
+                    </select>
+                </div>
               </div>
-            </div>
-
+              <div class="col-md-6">
+                <div class="form-group" id="ds_protect">
+                  
+                </div>
+              </div>
+               </div>
+            </form>
+         
+        </div>
         </div>
         <!-- /.card-body -->
       </div>
@@ -117,7 +104,29 @@
     </section>
     <!-- /.content -->
   </div>
+<script>
+  $("#id_protect").change(function(){
+    let id_protect = $(this).val();
+    $.ajax({
+      url: '{{ url('council/change-protect') }}',
+      type: 'POST',
+      dataType: 'JSON',
+      data: {id_protect: id_protect},
+      headers:{
+          'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+      },
+      success: function(data){
+        console.log(data);
+        $("#ds_protect").html(data);
+        $("#ds_protect").show();
+      },
+      error: function(err){
+        console.log(err);
+      }
+    });
 
+  })
+</script>
 
 
 @endsection
