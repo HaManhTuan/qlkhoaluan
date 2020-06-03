@@ -79,7 +79,7 @@ class QldotbaoveController extends Controller
     }
     public function delete(Request $req)
     {
-      Department::where('id',$req->id)->delete();
+      Protections::destroy($req->id);
       $msg = array(
         'status' => "_success",
         'msg'    => "Bạn đã xoá 1 đợt bảo vệ.",

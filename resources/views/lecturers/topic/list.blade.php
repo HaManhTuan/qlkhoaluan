@@ -41,26 +41,15 @@
           <table  class="table table-bordered table-striped" id="tabletopic">
                         <thead>
                         <tr>
-                          <th class="text-center">Action</th>
                             <th class="text-center">Tên đề tài</th>
                             <th class="text-center">Mô tả</th>
-                            <th class="text-center">Tình trạng</th>
+                            <th class="text-center">TT</th>
+                            <th class="text-center">Action</th>
                         </tr>
                         </thead>
                         <tbody class="ajax-loadlist-customer">
                           @foreach ($dataTopic as $element)
                            <tr >
-                             <td>
-                                <div class="btn-group">
-                                  <button type="button" class="btn btn-info dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                    <div class="dropdown-menu" role="menu">
-                                      <a class="dropdown-item" href="#">Xem chi tiết</a>
-                                      <a class="dropdown-item btn-del-topic"  data-id="{{$element->id}}">Xóa</a>
-                                    </div>
-                                  </button>
-                                </div>
-                             </td>
                              <td data-toggle="modal" data-target="#edit-cust" class="btn-edit" data-id="{{$element->id}}" action="{{ url('lecturers/topic/edit-modal') }}">{{$element->name}}</td>
                              <td>{{$element->description}}</td>
                              <td>
@@ -69,7 +58,9 @@
                               @else
                                <span class="badge badge-danger">Chưa duyệt</span>
                               @endif</td>
-                            
+                              <td>
+                                <button class="btn btn-danger btn-del-topic"  data-id="{{$element->id}}"><i class="fas fa-trash"></i></button>
+                             </td>
                            </tr>
                           @endforeach
                         </tbody>

@@ -19,4 +19,8 @@ class TopicProtection extends Model
     {
       return $this->belongsTo('App\Model\Protections', 'id_protection', 'id');
     }
+    public function fields()
+    {
+      return $this->belongsTo('App\Model\Fields', 'fields_id', 'id');
+    }
 }

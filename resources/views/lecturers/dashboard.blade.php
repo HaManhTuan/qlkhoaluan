@@ -29,7 +29,6 @@
             <div class="small-box bg-info">
               <div class="inner">
                 <h3>{{count($topics)}}</h3>
-
                 <p>Đề tài đã đăng</p>
               </div>
               <div class="icon">
@@ -82,9 +81,6 @@
             <table  class="table table-bordered table-striped" id="studentTable">
               <thead>
                 <tr>
-                    <th class="text-center" style="background-color: #fff;width: 50px;">
-                      <input type="checkbox" id="checkall"/>
-                    </th>
                     <th class="text-center">Tên Đề Tài</th>
                     <th class="text-center">SV</th>
                     <th class="text-center">Trạng thái</th>
@@ -93,7 +89,7 @@
               <tbody class="ajax-loadlist-customer">
                 @foreach ($TopicProtection as $element)
                 <tr class="trTable">
-                   <td class="text-center"><input type="checkbox" class="checkbox" name="topics_id" value="{{$element->id}}"/></td>
+                  
                    <td>{{$element->topics->name}}</td>
                    <td>{{$element->students->name}}</td>
                    <td class="text-center">

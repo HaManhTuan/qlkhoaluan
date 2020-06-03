@@ -36,6 +36,7 @@ Route::group(['middleware' => 'Admin'], function () {
  Route::post('council/change-protect','QlhoidongController@chaneProtect');
  Route::post('council/delete-council','QlhoidongController@delete');
  Route::get('council/detail/{id_council}','QlhoidongController@detail');
+ Route::post('council/add-points','QlhoidongController@points');
 
 Route::get('dang-xuat','LoginController@logout')->name("dang-xuat");
 Route::get('/','PageController@getIndex')->name("trang-chu");

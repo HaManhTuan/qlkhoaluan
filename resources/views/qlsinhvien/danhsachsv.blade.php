@@ -76,7 +76,7 @@
                       <td>{{$element->name}}</td>
                       <td>{{$element->branches->name}}</td>
                       <td>{{$element->classes->name}}</td>
-                      <td></td>
+                    
                     </tr>
                   @endforeach
                  
@@ -100,12 +100,7 @@
 <script src="resource/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="resource/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script>
-$("#studentTable").DataTable({
-            "columnDefs": [
-              { "orderable": false, "targets": 4 },
-              ],
-            "order": [],
-         });
+$("#studentTable").DataTable();
 </script>
 
 

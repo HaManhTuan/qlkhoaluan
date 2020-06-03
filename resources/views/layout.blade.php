@@ -35,6 +35,8 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- jQuery -->
 <script src="resource/plugins/jquery/jquery.min.js"></script>
+<script src="resource/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="resource/plugins/chart.js/Chart.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="resource/plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- SweetAlert2 -->
@@ -42,6 +44,10 @@
 <!-- Toastr -->
 <script src="resource/plugins/toastr/toastr.min.js"></script>
 <script src="resource/sweetalert2.all.js"></script>
+<!-- AdminLTE App -->
+<script src="resource/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="resource/dist/js/demo.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
@@ -354,29 +360,9 @@
 
 <!-- Bootstrap 4 -->
 <script src="resource/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="resource/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="resource/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="resource/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="resource/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="resource/plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="resource/plugins/moment/moment.min.js"></script>
-<script src="resource/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="resource/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Summernote -->
-<script src="resource/plugins/summernote/summernote-bs4.min.js"></script>
 <!-- overlayScrollbars -->
 <script src="resource/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="resource/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="resource/dist/js/pages/dashboard.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="resource/dist/js/demo.js"></script>
 </body>
 </html>

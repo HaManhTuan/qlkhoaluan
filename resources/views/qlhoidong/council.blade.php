@@ -9,6 +9,38 @@
   <!-- Select2 -->
   <link rel="stylesheet" href="resource/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="resource/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  @if(Session::has('flash_message_error'))
+<script>
+$(document).ready(function() {
+ const Toast = Swal.mixin({
+     toast: true,
+     position: 'top-end',
+     showConfirmButton: false,
+     timer: 3000
+ });
+   Toast.fire({
+       type: 'error',
+      title: "{{ Session::get('flash_message_error') }}"
+  });
+});
+</script>
+ @endif
+ @if(Session::has('flash_message_success'))
+<script>
+$(document).ready(function() {
+ const Toast = Swal.mixin({
+     toast: true,
+     position: 'top-end',
+     showConfirmButton: false,
+     timer: 3000
+ });
+   Toast.fire({
+       type: 'success',
+      title: "{{ Session::get('flash_message_success') }}"
+  });
+});
+</script>
+ @endif
 <div class="content-wrapper">
     <section class="content-header">
       <div class="container-fluid">
@@ -16,6 +48,18 @@
           <div class="col-sm-6">
             <h4>Hội Đồng {{$name_council->name_council}}</h4>
             <h6> {{$name_council->protect->name}}</h6>
+            <p>Thời gian bắt đầu: {{$name_council->protect->time_start}} </p> 
+            <p>Thời gian kết thúc: {{$name_council->protect->time_end}}</p>
+            <p>Trạng thái: 
+              @php
+                $now = date("Y-m-d");
+              @endphp
+              @if ($now < $name_council->protect->time_end)
+                <span class="badge badge-success"> Chưa bảo vệ</span>
+              @else
+               <span class="badge badge-danger"> Đã bảo vệ</span>
+              @endif
+            </p>
           </div>
 
         </div>
@@ -28,6 +72,14 @@
               <button class="btn btn-danger btn-del"  data-council="{{$id_council}}">
                     <i class="fas fa-trash-alt mr-2"></i>Xóa dữ liệu
               </button>
+              @if ($now == $name_council->protect->time_end || $now > $name_council->protect->time_end)
+              <form action="{{ url('council/add-points') }}" method="POST" id="frm-points" style="display: inline-block;">
+                @csrf
+                <input type="hidden" name="id_council" value="{{$id_council}}">
+                <button class="btn btn-primary" type="submit" data-council="{{$id_council}}">
+                    <i class="fas fa-plus mr-2"></i>Nhập điểm
+              </button>
+              @endif
             </div>
         </div>
         <div class="card-body p-4">
@@ -55,6 +107,8 @@
                       <th>Tên </th>
                       <th>Lớp</th>
                       <th>Đề tài</th>
+                      <th>Điểm</th>
+                      <th>TT</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -64,7 +118,8 @@
                     @foreach ($StudentCouncil as $element)
                      <tr>
                       <td>{{ $stt++}}</td>
-                      <td>{{ $element->msv}}</td>
+                      <td>{{ $element->msv}}
+                        <input type="hidden" name="msv[]" value="{{ $element->msv}}"></td>
                       <td>{{ $element->name}}</td>
                       <td>
                         @php
@@ -74,11 +129,26 @@
                         @endphp
                       </td>
                       <td>{{ $element->topic}}</td>
+                      <td>
+                        <input type="text" name="score[]" class="form-control" value="{{ $element->score}}" style="width: 50px;">
+                      </td>
+                      <td>
+                        @if ( $element->pass == 1)
+                           <span class="badge badge-success">Qua</span>
+                        @else
+                        @if ($element->pass == "")
+                          <span class="badge badge-default">None</span>
+                        @else
+                         <span class="badge badge-danger">Trượt</span>
+                        @endif
+                        @endif
+                      </td>
                     </tr>
                     @endforeach
                     
                   </tbody>
                 </table>
+              </form>
               </div>
             </div>
         </div>

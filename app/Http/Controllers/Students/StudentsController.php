@@ -54,6 +54,8 @@ class StudentsController extends Controller
   }
   public function registerTopics()
   {
+    $data_student = Students::find(Auth::guard('students')->user()->id);
+
     $TopicProtection = TopicProtection::with('topics')->where('id_student',Auth::guard('students')->user()->id)->first();
     if (isset($TopicProtection->id_topic) && $TopicProtection->id_topic != "") {
       $Topics = Topics::with('branches')->where('id',$TopicProtection->id_topic)->first();
@@ -70,21 +72,20 @@ class StudentsController extends Controller
     }
     $data_field_select   = $this->getDataFieldSelect();
     $protectionsdata   = Protections::where('accept',1)->where('time_end', '>=', date("Y-m-d"))->orderBy('created_at','DESC')->get();
-    return view('students.registerTopic')->with('data_field_select',$data_field_select)->with('TopicProtection',$TopicProtection)->with('Topics',$Topics)->with('Protections',$Protections)->with('protectionsdata',$protectionsdata);
+    return view('students.registerTopic')->with('data_field_select',$data_field_select)->with('TopicProtection',$TopicProtection)->with('Topics',$Topics)->with('Protections',$Protections)->with('protectionsdata',$protectionsdata)->with('data_student',$data_student);
   }
   public function changeregisterfields(Request $req)
   {
     $TopicProtection = TopicProtection::orderBy('created_at','DESC')->select('id_topic')->get()->toArray();
     $topics = Topics::where('accept',1)->where('fields_id',$req->field_id)->whereNotIn('id',$TopicProtection)->get();
     return json_encode($topics);
-    
-    
-   
   }
   public function registerpostTopics(Request $req){
     $TopicProtection = new TopicProtection();
     $TopicProtection->id_student = Auth::guard('students')->user()->id;
     $TopicProtection->id_topic = $req->topics_id;
+    $fields_id = Topics::where('id',$req->topics_id)->value('fields_id');
+    $TopicProtection->fields_id = $fields_id;
     $TopicProtection->id_protection = $req->id_protection;
      if ($TopicProtection->save()) {
       return redirect('students/register-topic')->with('flash_message_success','Bạn đã đăng kí thành công.');

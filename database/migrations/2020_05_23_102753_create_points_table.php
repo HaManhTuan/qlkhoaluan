@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStudentCouncilTable extends Migration
+class CreatePointsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,16 @@ class CreateStudentCouncilTable extends Migration
      */
     public function up()
     {
-        Schema::create('student_council', function (Blueprint $table) {
+        Schema::create('points', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
             $table->string('msv');
-            $table->longtext('topic');
-            $table->integer('id_topic');
-            $table->longtext('lecturer');
-            $table->interger('id_lecturer');
-            $table->string('id_council');
+            $table->string('name');
+            $table->string('topic');
+            $table->string('id_topic');
             $table->float('score')->null();
             $table->integer('pass')->null();
+            $table->string('council')->null();
+            $table->string('id_council')->null();
             $table->timestamps();
         });
     }
@@ -35,6 +34,6 @@ class CreateStudentCouncilTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_council');
+        Schema::dropIfExists('points');
     }
 }

@@ -163,7 +163,7 @@ $(document).ready(function() {
           $.ajax({
             url: '{{ url('departmenr/delete') }}',
             type: 'POST',
-            data: {id_council: id},
+            data: {id: id},
             dataType: 'JSON',
             headers: {
               'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')

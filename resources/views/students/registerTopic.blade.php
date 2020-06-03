@@ -61,7 +61,24 @@ $(document).ready(function() {
               <p>SĐT: {{$Topics->branches->phone_number}}</p>
               <p>Địa chỉ: {{$Topics->branches->address_lecturer}}</p>
               <p>Đợt bảo vệ dự kiến: {{$Protections->name}}</p> 
-              <span>Thời gian dự kiến: {{$Protections->time_start}} - {{$Protections->time_end}}</span>
+              <p>Thời gian dự kiến: {{$Protections->time_start}} - {{$Protections->time_end}}</p><br>
+              @php
+                $check_student = DB::table('student_council')->where('msv',$data_student->msv)->first();
+              @endphp
+              @if (isset($check_student) && $check_student != "")
+                 <p>Bạn đã được phân vào hội đồng:  {{$check_student->council}}</p><br><br>
+              @endif
+              @if (isset($check_student->score) && $check_student->score != "")
+                <p>Kết quả bảo vệ</p>
+                <p>Điểm của bạn:  {{$check_student->score}} điểm</p>
+                <p>Trạng thái:  @if ($check_student->pass == 1)
+                  <span class="badge badge-success">Qua</span>
+                  @else
+                  <span class="badge badge-danger">Trượt</span>
+                @endif</p>
+              @endif
+             
+
             </div>
           @elseif(isset($TopicProtection) && $TopicProtection->count() > 0)
             <div class="callout callout-danger">

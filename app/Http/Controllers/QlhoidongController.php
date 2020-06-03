@@ -44,4 +44,24 @@ class QlhoidongController extends Controller
       );
       return response()->json($msg);
     }
+    public function points(Request $req)
+    {
+       $data = $req->all();
+       foreach ($data['msv'] as $key => $val) {
+        $pro             = StudentCouncil::where('msv',$data['msv'][$key])->first();
+        $pro->score      = $data['score'][$key];
+        if ($data['score'][$key] <= 4) {
+          $pro->pass      = 0;
+        }
+        else{
+           $pro->pass      = 1;
+        }
+        $query           = $pro->save();
+      }
+      if ($query) {
+        return redirect('/council/detail/'.$data['id_council'])->with('flash_message_success','Bạn đã nhập điểm thành công');
+      } else {
+        return redirect('/council/detail/'.$data['id_council'])->with('flash_message_success','Có lỗi xảy ra vui lòng thử lại');
+      }
+    }
 }
