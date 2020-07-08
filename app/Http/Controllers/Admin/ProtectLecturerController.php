@@ -11,6 +11,7 @@ use App\Model\Lecturers;
 use App\Model\CouncilProtect;
 use Illuminate\Support\Str;
 use App\Exports\StudentCouncilExport;
+use App\Exports\DetailCouncilExport;
 use App\Imports\StudentCouncilImport;
 use Maatwebsite\Excel\Facades\Excel;
 class ProtectLecturerController extends Controller
@@ -60,5 +61,10 @@ class ProtectLecturerController extends Controller
 
       return Excel::download(new StudentCouncilExport, 'danh-sach-sv-dk.xlsx');
       
+    }
+    public function exportPro($id)
+    {
+      $StudentCouncil = StudentCouncil::where('id_council',$id)->value('council');
+      return Excel::download(new DetailCouncilExport($id), 'Hoi-dong-'.$StudentCouncil.'.xlsx');
     }
 }

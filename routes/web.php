@@ -37,7 +37,8 @@ Route::group(['middleware' => 'Admin'], function () {
  Route::post('council/delete-council','QlhoidongController@delete');
  Route::get('council/detail/{id_council}','QlhoidongController@detail');
  Route::post('council/add-points','QlhoidongController@points');
-
+ Route::get('council/export-pro/{id}', 'Admin\ProtectLecturerController@exportPro');
+ 
 Route::get('dang-xuat','LoginController@logout')->name("dang-xuat");
 Route::get('/','PageController@getIndex')->name("trang-chu");
 //Permissions
@@ -86,11 +87,18 @@ Route::get('qlgiangvien',[
       'as'=>'ql-giangvien',
       'uses'=>'QlgiangvienController@getQlgiangvien'
 ]);
+Route::post('delete-lecturer-admin',[
+      'as'=>'del-ql-giangvien',
+      'uses'=>'QlgiangvienController@deleteLecturerAdmin'
+]);
 Route::post('import-gv','QlgiangvienController@import');
 Route::post('change-accept','QlgiangvienController@changeaccept');
 Route::post('delete-topic','QlgiangvienController@deletetopic');
-//Xem chi tiet
+//Xem chi tidy_error_count(object)
 Route::get('chi-tiet-gv/{id}','QlgiangvienController@detaillectures');
+Route::post('editTopic','QlgiangvienController@editTopic');
+Route::post('editTopicPost','QlgiangvienController@editTopicPost');
+Route::post('delete-topic-post','QlgiangvienController@deleteTopicPost');
 
 //Change-status-gv
 Route::post('change-status','QlgiangvienController@changestatus');

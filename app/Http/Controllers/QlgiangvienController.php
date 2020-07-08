@@ -201,4 +201,87 @@ class QlgiangvienController extends Controller
     $data_send = ['detailTopic' =>$detailTopic,'data_fields_select' => $data_fields_select];
     return view('qlgiangvien.detaitopic')->with($data_send);
   }
+  public function editTopic(Request $req)
+  {
+    $detailTopic = Topics::find($req->id);
+     $data_fields_select   = $this->getDataFieldSelect($detailTopic->fields_id);
+    $data         = '<div class="form-group">
+                    <label for="department">Lĩnh Vực</label>
+                    <select name="field" class="form-control">
+                      <option value="" selected="" disabled="">---Chọn---</option>
+                      '.$data_fields_select.'
+                    </select>
+                </div><div class="form-group">
+    <input type="hidden" name="id" value="'.$detailTopic->id.'" />
+    <label for="fields" class="control-label">Tên Đề Tài <font color="#a94442">(*)</font></label>
+    <textarea name="name" class="form-control" rows="4" data-rule-required="true" data-msg-required="Vui lòng nhập tên để tài.">'.$detailTopic->name.'</textarea>
+    </div>
+    <div class="form-group">
+    <label for="fields" class="control-label">Mô tả  Đề Tài <font color="#a94442">(*)</font></label>
+    <textarea name="description" class="form-control" rows="4" data-rule-required="true" data-msg-required="Vui lòng nhập tên để tài.">'.$detailTopic->description.'</textarea>
+    </div>';
+    $msg = array(
+      'body'    => $data
+    );
+
+    return json_encode($msg);
+  }
+  public function editTopicPost(Request $req)
+  {
+    $topics =  Topics::find($req->id);
+    $topics->name = $req->name;
+    $topics->fields_id = $req->field;
+    $topics->description = $req->description;
+    $topics->accept = '1';
+    if ($topics->save()) {
+     $msg = array(
+      'status' => "_success",
+      'msg'    => "Bạn đã sửa để tài.",
+    );
+    return response()->json($msg);
+    }
+    else {
+     $msg = array(
+      'status' => "_error",
+      'msg'    => "Có lỗi xảy ra. Vui lòng thử lại.",
+    );
+    return response()->json($msg);
+    }
+  }
+  public function deleteTopicPost(Request $req)
+  {
+    $id     = $req->id;
+    $length = $req->length;
+    if (Topics::destroy($id)) {
+      $msg = array(
+        'status' => '_success',
+        'msg'    => $length.' mục đã được xóa',
+      );
+      return json_encode($msg);
+    } else {
+      $msg = array(
+        'status' => '_error',
+        'msg'    => 'Có lỗi xảy ra. Vui lòng thử lại',
+      );
+      return json_encode($msg);
+    }
+  }
+  public function deleteLecturerAdmin(Request $req)
+  {
+    $id     = $req->id;
+    $length = $req->length;
+    if (Lecturers::destroy($id)) {
+      $msg = array(
+        'status' => '_success',
+        'msg'    => $length.' mục đã được xóa',
+      );
+      return json_encode($msg);
+    } else {
+      $msg = array(
+        'status' => '_error',
+        'msg'    => 'Có lỗi xảy ra. Vui lòng thử lại',
+      );
+      return json_encode($msg);
+    }
+  }
 }

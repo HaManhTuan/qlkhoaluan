@@ -1,6 +1,7 @@
 <table>
     <thead>
     <tr>
+        <th>STT</th>
         <th>MSV</th>
         <th>HOTEN</th>
         <th>DETAI</th>

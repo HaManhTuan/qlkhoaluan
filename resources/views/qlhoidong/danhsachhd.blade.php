@@ -66,7 +66,7 @@ $(document).ready(function() {
             <div class="btn-groups">
                  <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url('council/add') }}'"><i class="fa fa-plus-circle"></i> Thêm Hội Đồng
                  </button>
-                 <button type="button" class="btn btn-success" onclick=""><i class="fa fa-download"></i> Xuất Excel</button>
+                <!--  <button type="button" class="btn btn-success" onclick=""><i class="fa fa-download"></i> Xuất Excel</button> -->
             </div>
           </div>
 

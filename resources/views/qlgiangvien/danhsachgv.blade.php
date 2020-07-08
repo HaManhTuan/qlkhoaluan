@@ -124,16 +124,16 @@
                                       </i>
                                       Xem
                                   </a>
-                                  <a class="btn btn-info btn-sm" href="#">
+<!--                                   <a class="btn btn-info btn-sm" href="#">
                                       <i class="fas fa-pencil-alt">
                                       </i>
                                       Sửa
-                                  </a>
-                                  <a class="btn btn-danger btn-sm" href="#">
+                                  </a> -->
+                                  <button class="btn btn-danger btn-sm btn-del-lectures"  data-id="{{$element->id}}">
                                       <i class="fas fa-trash">
                                       </i>
                                       Xóa
-                                  </a>
+                                  </button>
                               </td>
                             </tr>
                           @endforeach
@@ -150,14 +150,14 @@
     <!-- /.content -->
   </div>
 <script>
-  $(document).ready(function() {
+$(document).ready(function() {
      const Toast = Swal.mixin({
        toast: true,
        position: 'top-end',
        showConfirmButton: false,
        timer: 3000
-    });
-    $(".change_status").click(function(){
+});
+$(".change_status").click(function(){
       let id = $(this).data("id");
       $.ajax({
         url: '{{ url('change-status') }}',
@@ -183,8 +183,73 @@
           console.log(err);
         }
       });
-    });
-  });
+});
+});
+$(".btn-del-lectures").on('click',function() {
+      let id = $(this).attr('data-id');
+      Swal({
+        title: 'Xác nhận xóa?',
+        type: 'error',
+        html: '<p>Bạn sắp xóa 1 Giảng viên.</p><p>Bạn có chắn chắn muốn xóa?</p>',
+        showConfirmButton: true,
+        confirmButtonText: '<i class="ti-check" style="margin-right:5px"></i>Đồng ý',
+        confirmButtonColor: '#ef5350',
+        cancelButtonText: '<i class="ti-close" style="margin-right:5px"></i> Hủy bỏ',
+        showCancelButton: true,
+        focusConfirm: false,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value == true) {
+          $.ajax({
+            url: "{{ url('delete-lecturer-admin') }}",
+            type: 'POST',
+            data: {id: id, length: '1'},
+            dataType: 'JSON',
+            headers: {
+              'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+            },
+            success: function(data) {
+                            //console.log(data);
+                            if(data.status == '_success') {
+                              Swal({
+                                title: data.msg,
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                type: 'success',
+                                timer: 2000
+                              }).then(() => {
+                                $("#tr-item-" +id).remove();
+                                if ($(".coupon .tr-item").length == 0) {
+                                  location.reload();
+                                }
+                              });
+                            } else {
+                              Swal({
+                                title: data.msg,
+                                showCancelButton: false,
+                                showConfirmButton: true,
+                                confirmButtonText: 'OK',
+                                type: 'error'
+                              });
+                            }
+                          },
+                          error: function(err) {
+                            console.log(err);
+                            Swal({
+                              title: 'Error ' + err.status,
+                              text: err.responseText,
+                              showCancelButton: false,
+                              showConfirmButton: true,
+                              confirmButtonText: 'OK',
+                              type: 'error'
+                            });
+                          }
+                        });
+        }
+        return false;
+      });
+      return false;
+});
 </script>
  <!-- DataTables -->
   <link rel="stylesheet" href="resource/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">

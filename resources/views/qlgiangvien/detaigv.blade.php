@@ -101,7 +101,7 @@
                         @endif</td>
                       <td style="background-color: #fff;width: 150px;">
                         <button class="btn btn-primary" onclick="window.location.href='{{ url('detail-dt-gv/'.$element->id) }}'"><i class="fas fa-folder"></i></button>
-                        <button class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                        <button class="btn btn-danger btn-del-topics"  data-id="{{$element->id}}"><i class="fas fa-trash-alt"></i></button>
                       </td>
                     </tr>
                   @endforeach
@@ -125,6 +125,71 @@
 <script src="resource/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="resource/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script>
+  $(".btn-del-topics").on('click',function() {
+      let id = $(this).attr('data-id');
+      Swal({
+        title: 'Xác nhận xóa?',
+        type: 'error',
+        html: '<p>Bạn sắp xóa 1 Đề tài.</p><p>Bạn có chắn chắn muốn xóa?</p>',
+        showConfirmButton: true,
+        confirmButtonText: '<i class="ti-check" style="margin-right:5px"></i>Đồng ý',
+        confirmButtonColor: '#ef5350',
+        cancelButtonText: '<i class="ti-close" style="margin-right:5px"></i> Hủy bỏ',
+        showCancelButton: true,
+        focusConfirm: false,
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value == true) {
+          $.ajax({
+            url: "{{ url('delete-topic') }}",
+            type: 'POST',
+            data: {id: id, length: '1'},
+            dataType: 'JSON',
+            headers: {
+              'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+            },
+            success: function(data) {
+                            //console.log(data);
+                            if(data.status == '_success') {
+                              Swal({
+                                title: data.msg,
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                type: 'success',
+                                timer: 2000
+                              }).then(() => {
+                                $("#tr-item-" +id).remove();
+                                if ($(".coupon .tr-item").length == 0) {
+                                  location.reload();
+                                }
+                              });
+                            } else {
+                              Swal({
+                                title: data.msg,
+                                showCancelButton: false,
+                                showConfirmButton: true,
+                                confirmButtonText: 'OK',
+                                type: 'error'
+                              });
+                            }
+                          },
+                          error: function(err) {
+                            console.log(err);
+                            Swal({
+                              title: 'Error ' + err.status,
+                              text: err.responseText,
+                              showCancelButton: false,
+                              showConfirmButton: true,
+                              confirmButtonText: 'OK',
+                              type: 'error'
+                            });
+                          }
+                        });
+        }
+        return false;
+      });
+      return false;
+});
 $("#topicsTable").DataTable({
             "columnDefs": [
               { "orderable": false, "targets": 0 },

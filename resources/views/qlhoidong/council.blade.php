@@ -69,10 +69,12 @@ $(document).ready(function() {
       <div class="card">
         <div class="card-header">
           <div class="card-tools">
+             <a href="{{ url('council/export-pro/'.$id_council) }}" class="btn btn-success" onclick=""><i class="fa fa-download"></i> Xuất Excel</a>
               <button class="btn btn-danger btn-del"  data-council="{{$id_council}}">
                     <i class="fas fa-trash-alt mr-2"></i>Xóa dữ liệu
               </button>
               @if ($now == $name_council->protect->time_end || $now > $name_council->protect->time_end)
+
               <form action="{{ url('council/add-points') }}" method="POST" id="frm-points" style="display: inline-block;">
                 @csrf
                 <input type="hidden" name="id_council" value="{{$id_council}}">

@@ -183,12 +183,12 @@
 
             </ul>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+   <!--            <li class="nav-item">
                 <a href="{{route("dangki-dt")}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Đăng Kí Đề Tài</p>
                 </a>
-              </li>
+              </li> -->
               </li>
               
             </ul>
