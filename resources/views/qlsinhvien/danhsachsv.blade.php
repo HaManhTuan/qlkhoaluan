@@ -23,6 +23,7 @@
 
       <!-- Default box -->
       <div class="card">
+
         <div class="card-header">
           @if(count($errors) > 0)
               <div class="alert alert-danger">
@@ -41,6 +42,7 @@
                      <strong>{{ $message }}</strong>
              </div>
              @endif
+
               <form method="POST" enctype="multipart/form-data" action="{{ url('import-sv') }}">
                 {{ csrf_field() }}
                 <div class="form-group">
@@ -57,6 +59,12 @@
                  </table>
                 </div>
                </form>
+                         <div class="card-tools">
+            <div class="btn-groups">
+                 <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url('add-sv') }}'"><i class="fa fa-plus-circle"></i> Thêm 
+                 </button>
+            </div>
+          </div>
         </div>
         <div class="card-body p-4">
           <table  class="table table-bordered table-striped" id="studentTable">
@@ -66,6 +74,7 @@
                     <th class="text-center">Tên Sinh Viên</th>
                     <th class="text-center">Ngành</th>
                     <th class="text-center">Lớp</th>
+                    <th class="text-center">#</th>
                    
                 </tr>
                 </thead>
@@ -76,7 +85,10 @@
                       <td>{{$element->name}}</td>
                       <td>{{$element->branches->name}}</td>
                       <td>{{$element->classes->name}}</td>
-                    
+                      <td>
+                        <a href="{{ url('edit-sv/'.$element->id) }}" class="btn btn-primary">Sửa</a>
+                         <button class="btn btn-danger btn-del-classes" data-id="{{ $element->id}}"><i class="fas fa-trash"></i></button>
+                      </td>
                     </tr>
                   @endforeach
                  
@@ -101,6 +113,72 @@
 <script src="resource/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script>
 $("#studentTable").DataTable();
+      //Deletel
+  $(".btn-del-classes").on('click',function() {
+    let id = $(this).attr('data-id');
+    Swal({
+      title: 'Xác nhận xóa?',
+      type: 'error',
+      html: '<p>Bạn sắp xóa 1 Lớp.</p><p>Bạn có chắn chắn muốn xóa?</p>',
+      showConfirmButton: true,
+      confirmButtonText: '<i class="ti-check" style="margin-right:5px"></i>Đồng ý',
+      confirmButtonColor: '#ef5350',
+      cancelButtonText: '<i class="ti-close" style="margin-right:5px"></i> Hủy bỏ',
+      showCancelButton: true,
+      focusConfirm: false,
+      reverseButtons: true
+    }).then((result) => {
+      if (result.value == true) {
+        $.ajax({
+          url: '{{ url('delete-sv') }}',
+          type: 'POST',
+          data: {id: id, length: '1'},
+          dataType: 'JSON',
+          headers: {
+            'X-CSRF-TOKEN': $("meta[name='csrf-token']").attr('content')
+          },
+          success: function(data) {
+                          //console.log(data);
+                          if(data.status == '_success') {
+                            Swal({
+                              title: data.msg,
+                              showCancelButton: false,
+                              showConfirmButton: false,
+                              type: 'success',
+                              timer: 2000
+                            }).then(() => {
+                              $("#tr-item-" +id).remove();
+                              if ($(".coupon .tr-item").length == 0) {
+                                location.reload();
+                              }
+                            });
+                          } else {
+                            Swal({
+                              title: data.msg,
+                              showCancelButton: false,
+                              showConfirmButton: true,
+                              confirmButtonText: 'OK',
+                              type: 'error'
+                            });
+                          }
+                        },
+                        error: function(err) {
+                          console.log(err);
+                          Swal({
+                            title: 'Error ' + err.status,
+                            text: err.responseText,
+                            showCancelButton: false,
+                            showConfirmButton: true,
+                            confirmButtonText: 'OK',
+                            type: 'error'
+                          });
+                        }
+                      });
+      }
+      return false;
+    });
+    return false;
+  });
 </script>
 
 

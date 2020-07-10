@@ -89,9 +89,9 @@ class QlgiangvienController extends Controller
 
 
     public function getDetaigv(){
-      $topics = Topics::orderBy('created_at','DESC')->get();
+      $topics = Topics::where('accept','<>',2)->orderBy('created_at','DESC')->get();
     	return view('qlgiangvien.detaigv')->with('topics',$topics);
-    }
+    } 
     public function changeaccept(Request $req)
     {
       $id         = $req->id;
@@ -119,7 +119,7 @@ class QlgiangvienController extends Controller
       $length     = $req->length;
       $status     = $req->status;
       $id_array   = explode(",", $id);
-      if (Topics::whereIn('id', $id_array)->delete()) {
+      if (Topics::whereIn('id', $id_array)->update(['accept' => 2])) {
         $msg = [
         'status' => '_success',
         'msg'    => $length.' mục đã được xóa.'

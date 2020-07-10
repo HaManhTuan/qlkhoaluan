@@ -10,7 +10,7 @@ $(document).ready(function() {
      timer: 3000
  });
    Toast.fire({
-       icon: 'error',
+      icon: 'error',
       title: "{{ Session::get('flash_message_error') }}"
   });
 });

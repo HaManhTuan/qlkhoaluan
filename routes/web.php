@@ -81,7 +81,12 @@ Route::get('qlsinhvien',[
       'uses'=>'QlsinhvienController@getQlsinhvien'
 ]);
 Route::post('import-sv','QlsinhvienController@import');
-
+Route::get('add-sv','QlsinhvienController@add');
+Route::post('changeBranches','QlsinhvienController@changebrand');
+Route::post('addPost','QlsinhvienController@store');
+Route::get('edit-sv/{id}','QlsinhvienController@edit');
+Route::post('updateSV','QlsinhvienController@update');
+Route::post('delete-sv','QlsinhvienController@delete');
 //qlgiangvien
 Route::get('qlgiangvien',[
       'as'=>'ql-giangvien',
@@ -91,6 +96,7 @@ Route::post('delete-lecturer-admin',[
       'as'=>'del-ql-giangvien',
       'uses'=>'QlgiangvienController@deleteLecturerAdmin'
 ]);
+
 Route::post('import-gv','QlgiangvienController@import');
 Route::post('change-accept','QlgiangvienController@changeaccept');
 Route::post('delete-topic','QlgiangvienController@deletetopic');
