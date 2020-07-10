@@ -39,7 +39,7 @@
         </div>
 
           <div class="card-body p-4">
-            <table  class="table table-bordered table-striped">
+            <table  class="table table-bordered table-striped" id="topicRes">
               <thead>
                 <tr>
                     
@@ -69,4 +69,14 @@
         </div>
       </div>
     </section>
+       <!-- DataTables -->
+  <link rel="stylesheet" href="resource/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="resource/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <script src="resource/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="resource/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="resource/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="resource/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script>
+  $("#topicRes").DataTable();
+</script>
   @endsection
